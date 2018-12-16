@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       as: "bannerId",
       }
     }
- }),
+ });
 
   Topic.associate = function(models) {
     // associations can be defined here
