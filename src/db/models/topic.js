@@ -2,16 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Topic = sequelize.define('Topic', {
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    topicId: {
-      type: DataTypes.INTEGER,
-      onDelete: "CASCADE",
-      references: {
-      model: "Banner",
-      key: "id",
-      as: "bannerId",
-      }
-    }
+    description: DataTypes.STRING
  });
 
   Topic.associate = function(models) {
