@@ -7,8 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Rule.belongsTo(models.Topic, {
       foreignKey: "ruleId",
-      onDelete: "CASCADE",
-      });
+      foreignKey: "topicId",
+      as: "banners",
+      onDelete: "CASCADE"
+    });
   };
   return Rule;
 };

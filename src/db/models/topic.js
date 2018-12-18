@@ -8,8 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Topic.hasMany(models.Banner, {
      foreignKey: "topicId",
+     foreignKey: "ruleId",
      as: "banners",
-   });
+     onDelete: "CASCADE"
+    });
   };
   return Topic;
 };
