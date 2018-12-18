@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Rule = sequelize.define('Rule', {
     topicId: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT
 });
   Rule.associate = function(models) {
     // associations can be defined here
