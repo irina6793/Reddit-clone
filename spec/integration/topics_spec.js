@@ -33,6 +33,8 @@ describe("GET /topics", () => {
 
 //#3
      request.get(base, (err, res, body) => {
+        console.dir(body);
+        
          expect(res.statusCode).toBe(200);
          expect(err).toBeNull();
          expect(body).toContain("Topics");
