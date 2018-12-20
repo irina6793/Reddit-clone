@@ -4,12 +4,16 @@ module.exports = (sequelize, DataTypes) => {
     topicId: DataTypes.STRING,
     description: DataTypes.TEXT
 });
-  Rule.associate = function(models) {
-    // associations can be defined here
-    Rule.belongsTo(models.Topic, {
+  Rule.associate = function(models.Topic, {
+      id: DataTypes.STRING,
+      source: VARCHAR(255),
+      description: VARCHAR(255),
+      topicId: INTEGER
+    });
+  Rule.belongsTo(models.Topic, {
       foreignKey: "topicId",
       onDelete: "CASCADE"
     });
-  };
+
   return Rule;
 };
