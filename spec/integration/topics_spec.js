@@ -54,6 +54,18 @@ describe("GET /topics", () => {
    });
  });
 
+describe("GET /topics/advertisement", () => {
+   it("should render an advertisement form", (done) => {
+
+//#5
+   request.get(`${base}advertisement`, (err, res, body) => {
+   expect(err).toBeNull();
+   expect(body).toContain("Advertisement");
+   done();
+  });
+ });
+});
+
  describe("POST /topics/create", () => {
     const options = {
       url: `${base}create`,
