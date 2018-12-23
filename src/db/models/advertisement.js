@@ -1,20 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Advertisement = sequelize.define('Advertisement', {
+  const Advertisement = sequelize.define('Advertisement', {
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    advertisementId: DataTypes.STRING
-  });
+    description: DataTypes.STRING
+  }, {});
   Advertisement.associate = function(models) {
     // associations can be defined here
-    Advertisement.hasMany(models.Banner, {
-     foreignKey: "advertisementId",
-     as: "banners"
-    });
-    Advertisement.hasMany(models.Rule, {
-      foreignKey: "advertisementId",
-      as: "CASCADE"
-    })
-  }
+  };
   return Advertisement;
 };

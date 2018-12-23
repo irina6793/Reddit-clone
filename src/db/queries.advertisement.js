@@ -1,11 +1,10 @@
-const Topic = require("./models").Topic;
-
+const Advertisement = require("./models").Advertisement;
 
 module.exports = {
 
 //#1
   getAllTopics(callback){
-    return Topic.all()
+    return Advertisement.all()
 
 //#2
     .then((topics) => {
@@ -16,8 +15,8 @@ module.exports = {
     })
   },
 
-  getTopic(id, callback){
-    return Topic.findById(id)
+  getAdvertisement(id, callback){
+    return Advertisement.findById(id)
    .then((topic) => {
      callback(null, topic);
   })
@@ -27,10 +26,10 @@ module.exports = {
 },
 
 //#3
-  addTopic(newTopic, callback){
+  addAdvertisement(newTopic, callback){
     return Topic.create({
-      title: newTopic.title,
-      description: newTopic.description
+      title: newAdvertisement.title,
+      description: newAdvertisement.description
      })
     .then((topic) => {
       callback(null, topic);
@@ -40,14 +39,14 @@ module.exports = {
     })
   },
 
- updateTopic(id, updatedTopic, callback){
-    return Topic.findById(id)
+ updateAdvertisement(id, updatedAdvertisement, callback){
+    return Advertisement.findById(id)
     .then((topic) => {
       if(!topic){
-        return callback("Topic not found");
+        return callback("Advertisement not found");
       }
-        topic.update(updatedTopic, {
-        fields: Object.keys(updatedTopic)
+        topic.update(updatedAdvertisement, {
+        fields: Object.keys(updatedAdvertisement)
       })
       .then(() => {
         callback(null, topic);
@@ -58,8 +57,8 @@ module.exports = {
     });
   },
 
-  deleteTopic(id, callback){
-    return Topic.destroy({
+  deleteAdvertisement(id, callback){
+    return Advertisement.destroy({
       where: {id}
   })
    .then((topic) => {
