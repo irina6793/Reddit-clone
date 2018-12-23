@@ -7,7 +7,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
 
-describe("routes : advertisements", () => {
+describe("routes : advertisement", () => {
 
 //#2
 beforeEach((done) => {
