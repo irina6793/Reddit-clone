@@ -18,9 +18,6 @@ module.exports = {
  new(req, res, next){
    res.render("topics/new");
  },
- new(req, res, next){
-   res.render("topics/advertisement");
- },
   create(req, res, next){
    let newTopic = {
      title: req.body.title,
@@ -34,20 +31,7 @@ module.exports = {
     }
   });
  },
-  create(req, res, next){
-    let newAdvertisement = {
-      title: req.body.title,
-      description: req.body.description
-    };
-    topicQueries.addAdvertisement(newAdvertisement, (err, topic) => {
-      if(err){
-        res.redirect(500, "/advertisements/new");
-      } else {
-        res.redirect(303, `/advertisements/${advertisement.id}`);
-      }
-    });
-  },
-
+  
  show(req, res, next){
    topicQueries.getTopic(req.params.id, (err, topic) => {
    if(err || topic == null){

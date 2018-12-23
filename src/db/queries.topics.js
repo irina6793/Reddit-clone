@@ -1,4 +1,5 @@
 const Topic = require("./models").Topic;
+const Advertisement = require("./models").Advertisement;
 
 module.exports = {
 

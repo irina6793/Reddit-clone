@@ -6,6 +6,7 @@ const base = "http://localhost:3000/topics/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 
+
 describe("routes : topics", () => {
 
 //#2
@@ -135,6 +136,8 @@ describe("GET /topics/:id", () => {
    });
   });
  });
+
+
 
  describe("GET /topics/:id/edit", () => {
    it("should render a view with an edit topic form", (done) => {
