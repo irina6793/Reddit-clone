@@ -97,6 +97,35 @@ describe("GET /topics/advertisement", () => {
    });
   });
 
+ describe("POST /topics/createAdvertisement", () => {
+   const options = {
+     url: `${base}createAdvertisement`,
+     form: {
+       title: "Inspirational Advertisement",
+       description: "What is your favorite advertisement?"
+     }
+   };
+   it("should create a new topic and redirect", (done) => {
+
+   request.post(options,
+
+   (err, res, body) => {
+      Topic.findOne({where: {title: "Inspirational Advertisement"}})
+      .then((topic) => {
+         expect(res.statusCode).toBe(303);
+         expect(topic.title).toBe("Inspirational Advertisement");
+         expect(topic.description).toBe("What is your favorite advertisement?");
+         done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      }
+    );
+  });
+});
+
 describe("GET /topics/:id", () => {
   it("should render a view with the selected topic", (done) => {
   request.get(`${base}${this.topic.id}`, (err, res, body) => {

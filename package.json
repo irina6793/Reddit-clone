@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "faker": "^4.1.0",
-    "jasmine": "^3.3.0",
+    "jasmine": "^3.3.1",
     "request": "^2.83.0"
   },
   "dependencies": {
@@ -23,5 +23,17 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.32.6",
     "sequelize-cli": "^5.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irina6793/bloccit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/irina6793/bloccit/issues"
+  },
+  "homepage": "https://github.com/irina6793/bloccit#readme",
+  "keywords": [
+    "Chat",
+    "app"
+  ]
 }
