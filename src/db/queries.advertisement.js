@@ -3,12 +3,12 @@ const Advertisement = require("./models").Advertisement;
 module.exports = {
 
 //#1
-  getAllTopics(callback){
+  getAllAdvertisement(callback){
     return Advertisement.all()
 
 //#2
-    .then((topics) => {
-      callback(null, topics);
+    .then((advertisement) => {
+      callback(null, advertisement);
     })
     .catch((err) => {
       callback(err);
@@ -17,8 +17,8 @@ module.exports = {
 
   getAdvertisement(id, callback){
     return Advertisement.findById(id)
-   .then((topic) => {
-     callback(null, topic);
+   .then((advertisement) => {
+     callback(null, advertisement);
   })
      .catch((err) => {
       callback(err);
@@ -26,13 +26,13 @@ module.exports = {
 },
 
 //#3
-  addAdvertisement(newTopic, callback){
-    return Topic.create({
+  addAdvertisement(newAdvertisement, callback){
+    return Advertisement.create({
       title: newAdvertisement.title,
       description: newAdvertisement.description
      })
-    .then((topic) => {
-      callback(null, topic);
+    .then((advertisement) => {
+      callback(null, advertisement);
     })
    .catch((err) => {
       callback(err);
@@ -41,15 +41,15 @@ module.exports = {
 
  updateAdvertisement(id, updatedAdvertisement, callback){
     return Advertisement.findById(id)
-    .then((topic) => {
-      if(!topic){
+    .then((advertisement) => {
+      if(!advertisement){
         return callback("Advertisement not found");
       }
-        topic.update(updatedAdvertisement, {
+        advertisement.update(updatedAdvertisement, {
         fields: Object.keys(updatedAdvertisement)
       })
       .then(() => {
-        callback(null, topic);
+        callback(null, advertisement);
       })
       .catch((err) => {
         callback(err);
@@ -61,8 +61,8 @@ module.exports = {
     return Advertisement.destroy({
       where: {id}
   })
-   .then((topic) => {
-     callback(null, topic);
+   .then((advertisement) => {
+     callback(null, advertisement);
    })
    .catch((err) => {
      callback(err);

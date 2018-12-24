@@ -37,7 +37,7 @@ module.exports = {
       if(err || topic == null){
          res.redirect(404, "/");
      } else {
-         res.render("advertisements/show", {advertisement});
+         res.render("advertisement/show", {advertisement});
       }
      });
    },
@@ -46,25 +46,25 @@ module.exports = {
        if(err || topic == null){
          res.redirect(404, "/");
        } else {
-         res.render("advertisements/edit", {advertisement});
+         res.render("advertisement/edit", {advertisement});
       }
     });
    },
    update(req, res, next){
      advertisementQueries.updateAdvertisement(req.params.id, req.body, (err, advertisement) => {
        if(err || topic == null){
-         res.redirect(404, `/advertisements/${req.params.id}/edit`);
+         res.redirect(404, `/advertisement/${req.params.id}/edit`);
        } else {
-         res.redirect(`/advertisements/${advertisement.id}`);
+         res.redirect(`/advertisement/${advertisement.id}`);
        }
      });
    },
    destroy(req, res, next){
      advertisementQueries.deleteAdvertisement(req.params.id, (err, advertisement) => {
        if(err){
-         res.redirect(500, `/advertisements/${advertisement.id}`)
+         res.redirect(500, `/advertisement/${advertisement.id}`)
        } else {
-         res.redirect(303, "/advertisements")
+         res.redirect(303, "/advertisement")
        }
      });
     }
