@@ -1,21 +1,8 @@
 const advertisementQueries = require("../db/queries.advertisement.js");
 
 module.exports = {
-  index(req, res, next){
 
-    //#2
-      advertisementQueries.getAllAdvertisement((err, advertisements) => {
-
-    //#3
-      if(err){
-        res.redirect(500, "static/index");
-      } else {
-        res.render("advertisement/index", {advertisements});
-       }
-      })
-     },
-
-     new(req, res, next){
+  new(req, res, next){
        res.render("advertisement/new");
      },
      create(req, res, next){
