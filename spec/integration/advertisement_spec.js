@@ -29,7 +29,7 @@ beforeEach((done) => {
    });
 
 describe("GET /advertisement", () => {
-    it("should return a status code 200", (done) => {
+    it("should return a status code 200 and all advertisement", (done) => {
 
 //#3
      request.get(base, (err, res, body) => {
@@ -54,11 +54,11 @@ describe("GET /advertisement", () => {
    });
  });
 
- describe("POST /advertisements/create", () => {
+ describe("POST /advertisement/create", () => {
     const options = {
       url: `${base}create`,
       form: {
-        title: "Progressive advertisement",
+        title: "Progressive Advertisement",
         description: "What's your favorite progressive advertisement?"
      }
    };
@@ -69,10 +69,10 @@ describe("GET /advertisement", () => {
 
  //#6
    (err, res, body) => {
-      Advertisement.findOne({where: {title: "Progressive advertisement"}})
+      Advertisement.findOne({where: {title: "Progressive Advertisement"}})
      .then((topic) => {
         expect(res.statusCode).toBe(303);
-        expect(advertisement.title).toBe("Progressive advertisement");
+        expect(advertisement.title).toBe("Progressive Advertisement");
         expect(advertisement.description).toBe("What's your progressive advertisement?");
         done();
       })
@@ -89,7 +89,7 @@ describe("GET /advertisement", () => {
     it("should render a view with the selected advertisement", (done) => {
     request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
       expect(err).toBeNull();
-      expect(body).toContain("Best Advertisements");
+      expect(body).toContain("Best Advertisement");
       done();
      });
     });
@@ -99,7 +99,7 @@ describe("GET /advertisement", () => {
      it("should render a view with an edit advertisement form", (done) => {
          expect(err).toBeNull();
          expect(body).toContain("Edit Advertisement");
-         expect(body).toContain("Best Advertisements");
+         expect(body).toContain("Best Advertisement");
          done();
        });
      });
