@@ -6,19 +6,18 @@ const base = "http://localhost:3000/advertisement/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
-
 describe("routes : advertisement", () => {
 
 //#2
 beforeEach((done) => {
-      this.topic;
+      this.advertisement;
       sequelize.sync({force: true}).then((res) => {
 
        Advertisement.create({
-         title: "Best advertisement",
+         title: "Best Advertisement",
          description: "There is plenty of them"
        })
-        .then((topic) => {
+        .then((advertisement) => {
           this.advertisement = advertisement;
           done();
         })
@@ -30,14 +29,14 @@ beforeEach((done) => {
    });
 
 describe("GET /advertisement", () => {
-    it("should return a status code 200 and all topics", (done) => {
+    it("should return a status code 200", (done) => {
 
 //#3
      request.get(base, (err, res, body) => {
          expect(res.statusCode).toBe(200);
          expect(err).toBeNull();
          expect(body).toContain("Advertisement");
-         expect(body).toContain("Best advertisement");
+         expect(body).toContain("Best Advertisement");
          done();
        });
      });
@@ -88,7 +87,7 @@ describe("GET /advertisement", () => {
 
   describe("GET /advertisement/:id", () => {
     it("should render a view with the selected advertisement", (done) => {
-    request.get(`${base}${this.topic.id}`, (err, res, body) => {
+    request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
       expect(err).toBeNull();
       expect(body).toContain("Best Advertisements");
       done();
@@ -134,13 +133,13 @@ describe("GET /advertisement", () => {
      it("should delete the advertisement with the associated ID", (done) => {
 
      Advertisement.all()
-     .then((advertisements) => {
+     .then((advertisement) => {
 
-     const advertisementCountBeforeDelete = topics.length;
+     const advertisementCountBeforeDelete = advertisement.length;
      expect(advertisementCountBeforeDelete).toBe(1);
      request.post(`${base}${this.advertisement.id}/destroy`, (err, res, body) => {
-       Topic.all()
-      .then((topics) => {
+       advertisement.all()
+      .then((advertisement) => {
        expect(err).toBeNull();
        expect(advertisement.length).toBe(advertisementCountBeforeDelete - 1);
        done();
