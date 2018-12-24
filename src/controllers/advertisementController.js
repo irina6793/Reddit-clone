@@ -21,7 +21,7 @@ module.exports = {
 
     show(req, res, next){
       advertisementQueries.getAdvertisement(req.params.id, (err, advertisement) => {
-      if(err || topic == null){
+      if(err || advertisement == null){
          res.redirect(404, "/");
      } else {
          res.render("advertisement/show", {advertisement});
@@ -30,7 +30,7 @@ module.exports = {
    },
    edit(req, res, next){
      advertisementQueries.getAdvertisement(req.params.id, (err, advertisement) => {
-       if(err || topic == null){
+       if(err || advertisement == null){
          res.redirect(404, "/");
        } else {
          res.render("advertisement/edit", {advertisement});
@@ -39,7 +39,7 @@ module.exports = {
    },
    update(req, res, next){
      advertisementQueries.updateAdvertisement(req.params.id, req.body, (err, advertisement) => {
-       if(err || topic == null){
+       if(err || advertisement == null){
          res.redirect(404, `/advertisement/${req.params.id}/edit`);
        } else {
          res.redirect(`/advertisement/${advertisement.id}`);
