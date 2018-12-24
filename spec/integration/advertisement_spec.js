@@ -19,7 +19,7 @@ beforeEach((done) => {
          description: "There is plenty of them"
        })
         .then((topic) => {
-          this.topic = topic;
+          this.advertisement = advertisement;
           done();
         })
         .catch((err) => {
@@ -63,18 +63,18 @@ describe("GET /advertisement", () => {
         description: "What's your favorite progressive advertisement?"
      }
    };
-   it("should create a new topic and redirect", (done) => {
+   it("should create a new advertisement and redirect", (done) => {
 
  //#5
    request.post(options,
 
  //#6
    (err, res, body) => {
-      Topic.findOne({where: {title: "Progressive advertisement"}})
+      Advertisement.findOne({where: {title: "Progressive advertisement"}})
      .then((topic) => {
         expect(res.statusCode).toBe(303);
-        expect(topic.title).toBe("Progressive advertisement");
-        expect(topic.description).toBe("What's your progressive advertisement?");
+        expect(advertisement.title).toBe("Progressive advertisement");
+        expect(advertisement.description).toBe("What's your progressive advertisement?");
         done();
       })
       .catch((err) => {
@@ -98,14 +98,13 @@ describe("GET /advertisement", () => {
 
   describe("GET /advertisement/:id/edit", () => {
      it("should render a view with an edit advertisement form", (done) => {
-       request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
          expect(body).toContain("Edit Advertisement");
          expect(body).toContain("Best Advertisements");
          done();
        });
      });
-   });
+
 
    describe("POST /advertisement/:id/update", () => {
      it("should update the advertisement with the given values", (done) => {
