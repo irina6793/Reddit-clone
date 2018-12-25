@@ -6,7 +6,7 @@ const base = "http://localhost:3000/advertisement/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
-describe("routes : advertisement", () => {
+describe("routes : advertisements", () => {
 
 //#2
 beforeEach((done) => {
@@ -28,7 +28,7 @@ beforeEach((done) => {
       });
    });
 
- describe("GET /advertisement/new", () => {
+ describe("GET /advertisements/new", () => {
    it("should render a new advertisement form", (done) => {
 
 //#4
@@ -40,7 +40,7 @@ beforeEach((done) => {
    });
  });
 
- describe("POST /advertisement/create", () => {
+ describe("POST /advertisements/create", () => {
     const options = {
       url: `${base}create`,
       form: {
@@ -71,7 +71,7 @@ beforeEach((done) => {
    });
   });
 
-  describe("GET /advertisement/:id", () => {
+  describe("GET /advertisements/:id", () => {
     it("should render a view with the selected advertisement", (done) => {
     request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
       expect(err).toBeNull();
@@ -81,7 +81,7 @@ beforeEach((done) => {
     });
    });
 
-  describe("GET /advertisement/:id/edit", () => {
+  describe("GET /advertisements/:id/edit", () => {
      it("should render a view with an edit advertisement form", (done) => {
        request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
@@ -93,7 +93,7 @@ beforeEach((done) => {
    });
 
 
-   describe("POST /advertisement/:id/update", () => {
+   describe("POST /advertisements/:id/update", () => {
      it("should update the advertisement with the given values", (done) => {
        const options = {
          url: `${base}${this.advertisement.id}/update`,
@@ -117,7 +117,7 @@ beforeEach((done) => {
        });
      });
 
-  describe("POST /advertisement/:id/destroy", () => {
+  describe("POST /advertisements/:id/destroy", () => {
      it("should delete the advertisement with the associated ID", (done) => {
 
      Advertisement.all()

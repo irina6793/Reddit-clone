@@ -1,9 +1,9 @@
-const advertisementQueries = require("../db/queries.advertisement.js");
+const advertisementQueries = require("../db/queries.advertisements.js");
 
 module.exports = {
 
   new(req, res, next){
-       res.render("advertisement/new");
+       res.render("advertisements/new");
      },
      create(req, res, next){
        let newAdvertisement = {
@@ -12,9 +12,9 @@ module.exports = {
        };
        advertisementQueries.addAdvertisement(newAdvertisement, (err, advertisement) => {
          if(err){
-           res.redirect(500, "/advertisement/new");
+           res.redirect(500, "/advertisements/new");
          } else {
-           res.redirect(303, `/advertisement/${advertisement.id}`);
+           res.redirect(303, `/advertisements/${advertisement.id}`);
          }
        });
      },
@@ -24,7 +24,7 @@ module.exports = {
       if(err || advertisement == null){
          res.redirect(404, "/");
      } else {
-         res.render("advertisement/show", {advertisement});
+         res.render("advertisements/show", {advertisement});
       }
      });
    },
@@ -33,25 +33,25 @@ module.exports = {
        if(err || advertisement == null){
          res.redirect(404, "/");
        } else {
-         res.render("advertisement/edit", {advertisement});
+         res.render("advertisements/edit", {advertisement});
       }
     });
    },
    update(req, res, next){
      advertisementQueries.updateAdvertisement(req.params.id, req.body, (err, advertisement) => {
        if(err || advertisement == null){
-         res.redirect(404, `/advertisement/${req.params.id}/edit`);
+         res.redirect(404, `/advertisements/${req.params.id}/edit`);
        } else {
-         res.redirect(`/advertisement/${advertisement.id}`);
+         res.redirect(`/advertisements/${advertisement.id}`);
        }
      });
    },
    destroy(req, res, next){
      advertisementQueries.deleteAdvertisement(req.params.id, (err, advertisement) => {
        if(err){
-         res.redirect(500, `/advertisement/${advertisement.id}`)
+         res.redirect(500, `/advertisements/${advertisement.id}`)
        } else {
-         res.redirect(303, "/advertisement")
+         res.redirect(303, "/advertisements")
        }
      });
     }
