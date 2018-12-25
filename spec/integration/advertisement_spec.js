@@ -2,24 +2,21 @@ const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/advertisement/";
 
-//#1
 const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
 describe("routes : advertisements", () => {
-
-//#2
-beforeEach((done) => {
-      this.advertisement;
+  beforeEach((done) => {
+      this.advertisement = null;
       sequelize.sync({force: true}).then((res) => {
 
        Advertisement.create({
          title: "Best Advertisement",
-         description: "There is plenty of them"
+         description: "There are plenty"
        })
         .then((advertisement) => {
-          this.advertisement = advertisement;
-          done();
+            this.advertisement = advertisement;
+            done();
         })
         .catch((err) => {
           console.log(err);
@@ -28,25 +25,21 @@ beforeEach((done) => {
       });
    });
 
-   describe("GET /advertisements", () => {
-       it("should return a status code 200 and all advertisements", (done) => {
-
-   //#3
-        request.get(base, (err, res, body) => {
+describe("GET /advertisements", () => {
+    it("should return a status code 200 and all advertisements", (done) => {
+         request.get(base, (err, res, body) => {
             expect(res.statusCode).toBe(200);
+            expect(body).toContain("Best Advertisement");
+            //expect(body).toContain("There are plenty");
             expect(err).toBeNull();
-            expect(body).toContain("Advertisements");
-            expect(body).toContain("Best Advertisements");
             done();
           });
         });
       });
 
- describe("GET /advertisements/new", () => {
-   it("should render a new advertisement form", (done) => {
-
-//#4
-    request.get(`${base}new`, (err, res, body) => {
+describe("GET /advertisements/new", () => {
+    it("should render a new advertisement form", (done) => {
+      request.get(`${base}new`, (err, res, body) => {
       expect(err).toBeNull();
       expect(body).toContain("New Advertisement");
       done();
@@ -54,7 +47,7 @@ beforeEach((done) => {
    });
  });
 
- describe("POST /advertisements/create", () => {
+describe("POST /advertisements/create", () => {
     const options = {
       url: `${base}create`,
       form: {
@@ -63,12 +56,8 @@ beforeEach((done) => {
      }
    };
    it("should create a new advertisement and redirect", (done) => {
-
- //#5
-   request.post(options,
-
- //#6
-   (err, res, body) => {
+       request.post(options,
+         (err, res, body) => {
       Advertisement.findOne({where: {title: "Progressive Advertisement"}})
      .then((advertisement) => {
         expect(res.statusCode).toBe(303);
@@ -83,19 +72,43 @@ beforeEach((done) => {
      }
     );
    });
-  });
 
-  describe("GET /advertisements/:id", () => {
+ describe("GET /advertisements/:id", () => {
+
     it("should render a view with the selected advertisement", (done) => {
-    request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
-      expect(err).toBeNull();
-      expect(body).toContain("Selected Advertisement");
-      done();
+       request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Best Advertisement");
+          done();
      });
     });
    });
 
-  describe("GET /advertisements/:id/edit", () => {
+ describe("POST /advertisements/:id/destroy", () => {
+
+      it("should delete the advertisement with the associated ID", (done) => {
+
+      Advertisement.all()
+         .then((advertisement) => {
+
+      const advertisementCountBeforeDelete = advertisement.length;
+
+      expect(advertisementCountBeforeDelete).toBe(1);
+
+      request.post(`${base}${this.advertisement.id}/destroy`, (err, res, body) => {
+        Advertisement.all()
+       .then((advertisement) => {
+           expect(err).toBeNull();
+           expect(advertisement.length).toBe(advertisementCountBeforeDelete - 1);
+           done();
+        })
+       });
+      });
+     });
+    });
+
+describe("GET /advertisements/:id/edit", () => {
+
      it("should render a view with an edit advertisement form", (done) => {
        request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
@@ -106,22 +119,22 @@ beforeEach((done) => {
      });
    });
 
+describe("POST /advertisements/:id/update", () => {
 
-   describe("POST /advertisements/:id/update", () => {
      it("should update the advertisement with the given values", (done) => {
        const options = {
          url: `${base}${this.advertisement.id}/update`,
          form: {
            title: "Best Advertisement",
-           description: "There are plenty."
+           description: "There are plenty"
          }
        };
          request.post(options,
-         (err, res, body) => {
-         expect(err).toBeNull();
+            (err, res, body) => {
 
-        Advertisement.findOne({
-          where: { id: this.advertisement.id }
+            expect(err).toBeNull();
+            Advertisement.findOne({
+                 where: { id: this.advertisement.id }
            })
            .then((advertisement) => {
              expect(advertisement.title).toBe("Best Advertisement");
@@ -130,24 +143,5 @@ beforeEach((done) => {
          });
        });
      });
-
-  describe("POST /advertisements/:id/destroy", () => {
-     it("should delete the advertisement with the associated ID", (done) => {
-
-     Advertisement.all()
-     .then((advertisement) => {
-
-     const advertisementCountBeforeDelete = advertisement.length;
-     expect(advertisementCountBeforeDelete).toBe(1);
-     request.post(`${base}${this.advertisement.id}/destroy`, (err, res, body) => {
-       Advertisement.all()
-      .then((advertisement) => {
-       expect(err).toBeNull();
-       expect(advertisement.length).toBe(advertisementCountBeforeDelete - 1);
-       done();
-       })
-      });
-     });
-    });
    });
-  });
+});
