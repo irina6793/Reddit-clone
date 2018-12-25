@@ -28,6 +28,20 @@ beforeEach((done) => {
       });
    });
 
+   describe("GET /advertisements", () => {
+       it("should return a status code 200 and all advertisements", (done) => {
+
+   //#3
+        request.get(base, (err, res, body) => {
+            expect(res.statusCode).toBe(200);
+            expect(err).toBeNull();
+            expect(body).toContain("Advertisements");
+            expect(body).toContain("Best Advertisements");
+            done();
+          });
+        });
+      });
+
  describe("GET /advertisements/new", () => {
    it("should render a new advertisement form", (done) => {
 
