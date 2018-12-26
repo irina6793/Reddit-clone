@@ -13,6 +13,16 @@ module.exports = {
     })
   },
 
+  getAdvertisement(id, callback){
+    return Advertisement.findById(id)
+   .then((advertisement) => {
+     callback(null, advertisement);
+  })
+     .catch((err) => {
+      callback(err);
+  })
+  },
+
   addAdvertisement(newAdvertisement, callback){
     return Advertisement.create({
       title: newAdvertisement.title,
@@ -25,16 +35,6 @@ module.exports = {
       callback(err);
     })
   },
-
-  getAdvertisement(id, callback){
-    return Advertisement.findById(id)
-   .then((advertisement) => {
-     callback(null, advertisement);
-  })
-     .catch((err) => {
-      callback(err);
-  })
-},
 
     deleteAdvertisement(id, callback){
        return Advertisement.destroy({

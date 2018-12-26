@@ -25,19 +25,19 @@ describe("routes : advertisements", () => {
       });
    });
 
-describe("GET /advertisements", () => {
+describe("GET /advertisement", () => {
     it("should return a status code 200 and all advertisements", (done) => {
          request.get(base, (err, res, body) => {
             expect(res.statusCode).toBe(200);
             expect(body).toContain("Best Advertisement");
-            //expect(body).toContain("There are plenty");
+            expect(body).toContain("There are plenty");
             expect(err).toBeNull();
             done();
           });
         });
       });
 
-describe("GET /advertisements/new", () => {
+describe("GET /advertisement/new", () => {
     it("should render a new advertisement form", (done) => {
       request.get(`${base}new`, (err, res, body) => {
       expect(err).toBeNull();
@@ -47,7 +47,7 @@ describe("GET /advertisements/new", () => {
    });
  });
 
-describe("POST /advertisements/create", () => {
+describe("POST /advertisement/create", () => {
     const options = {
       url: `${base}create`,
       form: {
@@ -56,10 +56,9 @@ describe("POST /advertisements/create", () => {
      }
    };
    it("should create a new advertisement and redirect", (done) => {
-       request.post(options,
-         (err, res, body) => {
-      Advertisement.findOne({where: {title: "Progressive Advertisement"}})
-     .then((advertisement) => {
+       request.post(options, (err, res, body) => {
+          Advertisement.findOne({where: {title: "Progressive Advertisement"}})
+          .then((advertisement) => {
         expect(res.statusCode).toBe(303);
         expect(advertisement.title).toBe("Progressive Advertisement");
         expect(advertisement.description).toBe("What's your favorite progressive advertisement?");
@@ -69,9 +68,9 @@ describe("POST /advertisements/create", () => {
         console.log(err);
         done();
       });
-     }
-    );
-   });
+    });
+  })
+});
 
  describe("GET /advertisements/:id", () => {
 
@@ -115,8 +114,8 @@ describe("GET /advertisements/:id/edit", () => {
          expect(body).toContain("Edit Advertisement");
          expect(body).toContain("Best Advertisement");
          done();
-       });
-     });
+       })
+     })
    });
 
 describe("POST /advertisements/:id/update", () => {
@@ -144,4 +143,3 @@ describe("POST /advertisements/:id/update", () => {
        });
      });
    });
-});
