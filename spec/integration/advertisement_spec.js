@@ -1,13 +1,22 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/advertisement/";
-
 const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
-describe("routes : advertisements", () => {
-  beforeEach((done) => {
-      this.advertisement = null;
+describe("routes : advertisement", () => {
+
+describe("GET /advertisement", () => {
+   it("should return a status code 200 and all advertisements", (done) => {
+     request.get(base, (err, res, body) => {
+     expect(res.statusCode).toBe(200);
+     done();
+    });
+  });
+});
+
+   beforeEach((done) => {
+      this.advertisement;
       sequelize.sync({force: true}).then((res) => {
 
        Advertisement.create({
@@ -24,18 +33,6 @@ describe("routes : advertisements", () => {
         });
       });
    });
-
-describe("GET /advertisement", () => {
-    it("should return a status code 200 and all advertisements", (done) => {
-         request.get(base, (err, res, body) => {
-            expect(res.statusCode).toBe(200);
-            expect(body).toContain("Best Advertisement");
-            expect(body).toContain("There are plenty");
-            expect(err).toBeNull();
-            done();
-          });
-        });
-      });
 
 describe("GET /advertisement/new", () => {
     it("should render a new advertisement form", (done) => {
@@ -72,7 +69,7 @@ describe("POST /advertisement/create", () => {
   })
 });
 
- describe("GET /advertisements/:id", () => {
+ describe("GET /advertisement/:id", () => {
 
     it("should render a view with the selected advertisement", (done) => {
        request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
@@ -83,7 +80,7 @@ describe("POST /advertisement/create", () => {
     });
    });
 
- describe("POST /advertisements/:id/destroy", () => {
+ describe("POST /advertisement/:id/destroy", () => {
 
       it("should delete the advertisement with the associated ID", (done) => {
 
@@ -106,7 +103,7 @@ describe("POST /advertisement/create", () => {
      });
     });
 
-describe("GET /advertisements/:id/edit", () => {
+describe("GET /advertisement/:id/edit", () => {
 
      it("should render a view with an edit advertisement form", (done) => {
        request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
@@ -118,7 +115,7 @@ describe("GET /advertisements/:id/edit", () => {
      })
    });
 
-describe("POST /advertisements/:id/update", () => {
+describe("POST /advertisement/:id/update", () => {
 
      it("should update the advertisement with the given values", (done) => {
        const options = {
