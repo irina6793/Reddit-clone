@@ -9,6 +9,9 @@ module.exports = {
     console.log(err + "\n");
     res.redirect(500, "static/index");
   } else {
+    console.log("--DEBUG: getAllAds--");
+  console.log(advertisement);
+  console.log("\n");
     res.render("advertisement/index", {advertisement});
   }
 })

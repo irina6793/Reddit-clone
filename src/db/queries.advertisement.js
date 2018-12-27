@@ -6,10 +6,7 @@ module.exports = {
     return Advertisement.all()
 
     .then((advertisements) => {
-      console.log("\ngetAllAdvertisements Query Result:");
-    console.log(advertisements);
-    console.log("\n");
-      callback(null, advertisements);
+     callback(null, advertisements);
     })
     .catch((err) => {
       callback(err);
