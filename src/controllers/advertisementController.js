@@ -4,13 +4,16 @@ module.exports = {
 
   index(req, res, next) {
     advertisementQueries.getAllAdvertisements((err, advertisement) => {
-        if(err){
-          res.redirect(500, "static/index");
-        } else {
-          res.render("advertisement/index", {advertisement});
-        }
-      })
-    },
+      if(err || advertisement == null){
+    console.log("--DEBUG: getAllAds Error--");
+    console.log(err + "\n");
+    res.redirect(500, "static/index");
+  } else {
+    res.render("advertisement/index", {advertisement});
+  }
+})
+},
+
 
   new(req, res, next){
        res.render("advertisement/new");

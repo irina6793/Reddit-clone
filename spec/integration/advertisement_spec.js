@@ -9,6 +9,11 @@ describe("routes : advertisement", () => {
 describe("GET /advertisement", () => {
    it("should return a status code 200 and all advertisements", (done) => {
      request.get(base, (err, res, body) => {
+       console.log("---DEBUG---");
+      console.log("Status Code: " + res.statusCode);
+      console.log("\nBody");
+      console.log(body);
+      console.log("---END DEBUG---");
      expect(res.statusCode).toBe(200);
      done();
     });
