@@ -6,6 +6,25 @@ const Advertisement = require("../../src/db/models").Advertisement;
 
 describe("routes : advertisement", () => {
 
+  beforeEach((done) => {
+        this.advertisement;
+        sequelize.sync({force: true}).then((res) => {
+
+         Advertisement.create({
+           title: "Best Advertisement",
+           description: "There are plenty"
+         })
+          .then((advertisement) => {
+              this.advertisement = advertisement;
+              done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done();
+          });
+        });
+     });
+
 describe("GET /advertisement", () => {
    it("should return a status code 200 and all advertisements", (done) => {
      request.get(base, (err, res, body) => {
@@ -20,24 +39,6 @@ describe("GET /advertisement", () => {
   });
 });
 
-beforeEach((done) => {
-      this.advertisement;
-      sequelize.sync({force: true}).then((res) => {
-
-       Advertisement.create({
-         title: "Best Advertisement",
-         description: "There are plenty"
-       })
-        .then((advertisement) => {
-            this.advertisement = advertisement;
-            done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
-        });
-      });
-   });
 
 describe("GET /advertisement/new", () => {
     it("should render a new advertisement form", (done) => {
