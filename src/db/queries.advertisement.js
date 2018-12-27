@@ -3,9 +3,12 @@ const Advertisement = require("./models").Advertisement;
 module.exports = {
 
   getAllAdvertisements(callback){
-    return Advertisement.findAll()
+    return Advertisement.all()
 
     .then((advertisements) => {
+      console.log("\ngetAllAdvertisements Query Result:");
+    console.log(advertisements);
+    console.log("\n");
       callback(null, advertisements);
     })
     .catch((err) => {
