@@ -3,7 +3,7 @@ const advertisementQueries = require("../db/queries.advertisement.js");
 module.exports = {
 
   index(req, res, next) {
-    advertisementQueries.getAllAdvertisements((err, advertisement) => {
+    advertisementQueries.getAllAdvertisements((err, advertisements) => {
       if(err || advertisement == null){
     console.log("--DEBUG: getAllAds Error--");
     console.log(err + "\n");
@@ -12,7 +12,7 @@ module.exports = {
     console.log("--DEBUG: getAllAds--");
   console.log(advertisement);
   console.log("\n");
-    res.render("advertisement/index", {advertisement});
+    res.render("advertisement/index", {advertisements});
   }
 })
 },
