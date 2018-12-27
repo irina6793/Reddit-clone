@@ -15,7 +15,7 @@ describe("GET /advertisement", () => {
   });
 });
 
-   beforeEach((done) => {
+beforeEach((done) => {
       this.advertisement;
       sequelize.sync({force: true}).then((res) => {
 
