@@ -30,9 +30,8 @@ describe("Post", () => {
     })
    })
   });
-});
 
-  describe("#create()", () => {
+ describe("#create()", () => {
 
       it("should create a post object with a title, body, and assigned topic", (done) => {
 
@@ -69,7 +68,7 @@ describe("Post", () => {
      done();
    })
  });
-});
+
 
   describe("#setTopic()", () => {
     it("should associate a topic and a post together", (done) => {
@@ -93,7 +92,6 @@ describe("Post", () => {
     });
    })
   });
-});
 
 describe("#getTopic()", () => {
   it("should return the associated topic", (done) => {
@@ -103,4 +101,7 @@ describe("#getTopic()", () => {
       done();
     });
   });
+ });
+});
+});
 });
