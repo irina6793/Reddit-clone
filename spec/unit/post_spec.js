@@ -5,8 +5,8 @@ const Post = require("../../src/db/models").Post;
 describe("Post", () => {
 
   beforeEach((done) => {
-    this.topic;
-    this.post;
+    this.topic = this.topic;
+    this.post = this.post;
 
     sequelize.sync({force: true}).then((res) => {
 
@@ -15,8 +15,7 @@ describe("Post", () => {
     description: "A compilation of reports from recent visits to the star system.",
     posts: [{
       title: "My first visit to Proxima Centauri b",
-      body: "I saw some rocks.",
-      topicId: this.topic.id
+      body: "I saw some rocks."
      }]
    }, {
      include: {
@@ -25,8 +24,8 @@ describe("Post", () => {
     }
   })
    .then((topic) => {
-      this.topic = topic;
-      this.post = topic.posts[0];
+      this.topic = this.topic;
+      this.post = this.post;
       done();
     })
    })
@@ -75,9 +74,7 @@ describe("Post", () => {
   describe("#setTopic()", () => {
     it("should associate a topic and a post together", (done) => {
 
-
-
-   Topic.create({
+    Topic.create({
      title: "Challenges of interstellar travel",
      description: "1. The Wi-Fi is terrible"
 })
