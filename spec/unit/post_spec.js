@@ -26,7 +26,7 @@ describe("Post", () => {
   })
    .then((topic) => {
       this.topic = topic;
-      this.post = post;
+      this.post = topic.posts[0];
       done();
     })
    })
@@ -75,7 +75,8 @@ describe("Post", () => {
   describe("#setTopic()", () => {
     it("should associate a topic and a post together", (done) => {
 
-// #1
+
+
    Topic.create({
      title: "Challenges of interstellar travel",
      description: "1. The Wi-Fi is terrible"
