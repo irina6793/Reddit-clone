@@ -5,25 +5,23 @@ const Post = require("../../src/db/models").Post;
 describe("Post", () => {
 
   beforeEach((done) => {
-    this.topic = this.topic;
-    this.post = this.post;
+    //this.topic = this.topic;
+    //this.post = this.post;
 
     sequelize.sync({force: true}).then((res) => {
-
-   Topic.create({
-    title: "Expeditions to Alpha Centauri",
-    description: "A compilation of reports from recent visits to the star system.",
-    posts: [{
-      title: "My first visit to Proxima Centauri b",
-      body: "I saw some rocks."
+    Topic.create({
+      title: "Expeditions to Alpha Centauri",
+      description: "A compilation of reports from recent visits to the star system.",
+      posts: [{
+        title: "My first visit to Proxima Centauri b",
+        body: "I saw some rocks."
      }]
    }, {
      include: {
        model: Post,
        as: "posts"
     }
-  })
-   .then((topic) => {
+  }).then((topic) => {
       this.topic = this.topic;
       this.post = this.post;
       done();
@@ -32,21 +30,17 @@ describe("Post", () => {
   });
 
  describe("#create()", () => {
-
-      it("should create a post object with a title, body, and assigned topic", (done) => {
-
-   Post.create({
-     title: "Pros of Cryosleep during the long journey",
-     body: "1. Not having to answer the 'are we there yet?' question.",
-     topicId: this.topic.id
-  })
-   .then((post) => {
+     it("should create a post object with a title, body, and assigned topic", (done) => {
+     Post.create({
+       title: "Pros of Cryosleep during the long journey",
+       body: "1. Not having to answer the 'are we there yet?' question.",
+       topicId: this.topic.id
+  }).then((post) => {
    expect(post.title).toBe("Pros of Cryosleep during the long journey");
    expect(post.body).toBe("1. Not having to answer the 'are we there yet?' question.");
    expect(post.topicId).toBe(this.topic.id);
    done();
-})
-  .catch((err) => {
+}).catch((err) => {
     console.log(err);
     done();
   });
@@ -55,8 +49,7 @@ describe("Post", () => {
  it("should not create a post with missing title, body, or assigned topic", (done) => {
    Post.create({
      title: "Pros of Cryosleep during the long journey"
-   })
-   .then((post) => {
+   }).then((post) => {
      // the code in this block will not be evaluated since the validation error
      // will skip it. Instead, we'll catch the error in the catch block below
      // and set the expectations there
@@ -66,32 +59,24 @@ describe("Post", () => {
      expect(err.message).toContain("Post.body cannot be null");
      expect(err.message).toContain("Post.topicId cannot be null");
      done();
-   })
+   });
  });
-
+});
 
   describe("#setTopic()", () => {
     it("should associate a topic and a post together", (done) => {
-
     Topic.create({
      title: "Challenges of interstellar travel",
      description: "1. The Wi-Fi is terrible"
-})
-   .then((newTopic) => {
-
-// #2
+}).then((newTopic) => {
    expect(this.post.topicId).toBe(this.topic.id);
-
-// #3
-   this.post.setTopic(newTopic)
-   .then((post) => {
-
-// #4
-  expect(post.topicId).toBe(newTopic.id);
-  done();
+   this.post.setTopic(newTopic).then((post) => {
+    expect(post.topicId).toBe(newTopic.id);
+    done();
     });
-   })
   });
+  });
+});
 
 describe("#getTopic()", () => {
   it("should return the associated topic", (done) => {
@@ -102,6 +87,4 @@ describe("#getTopic()", () => {
     });
   });
  });
-});
-});
 });
