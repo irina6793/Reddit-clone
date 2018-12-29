@@ -5,29 +5,29 @@ const Post = require("../../src/db/models").Post;
 describe("Post", () => {
 
   beforeEach((done) => {
-    this.topic = this.topic;
-    this.post = this.post;
+      // this.topic = this.topic;
+      // this.post = this.post;
 
-    sequelize.sync({force: true}).then((res) => {
-    Topic.create({
-      title: "Expeditions to Alpha Centauri",
-      description: "A compilation of reports from recent visits to the star system.",
-      posts: [{
-        title: "My first visit to Proxima Centauri b",
-        body: "I saw some rocks."
-     }]
-   }, {
-     include: {
-       model: Post,
-       as: "posts"
-    }
-  }).then((topic) => {
-      this.topic = this.topic;
-      this.post = this.post;
-      done();
-    })
-   })
-  });
+      sequelize.sync({force: true}).then((res) => {
+        Topic.create({
+          title: "Expeditions to Alpha Centauri",
+          description: "A compilation of reports from recent visits to the star system.",
+          posts: [{
+            title: "My first visit to Proxima Centauri b",
+            body: "I saw some rocks."
+          }]
+        }, {
+          include: {
+            model: Post,
+            as: "posts"
+          }
+        }).then((topic) => {
+            this.topic = topic;
+            this.post = topic.posts[0];
+            done();
+        })
+      })
+    });
 
  describe("#create()", () => {
      it("should create a post object with a title, body, and assigned topic", (done) => {
