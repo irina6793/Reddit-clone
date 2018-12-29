@@ -5,8 +5,8 @@ const Post = require("../../src/db/models").Post;
 describe("Post", () => {
 
   beforeEach((done) => {
-    //this.topic = this.topic;
-    //this.post = this.post;
+    this.topic = this.topic;
+    this.post = this.post;
 
     sequelize.sync({force: true}).then((res) => {
     Topic.create({
