@@ -26,6 +26,14 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
+      postId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE", // delete topic if parent post is deleted
+        allowNull: false,    // validation to prevent null value
+        references: {        // association information
+          model: "Post",   // table name
+          key: "id",         // attribute to use
+          as: "postId"      // reference as postId
     });
   },
   down: (queryInterface, Sequelize) => {
