@@ -12,7 +12,7 @@ describe("Topic", () => {
         Topic.create({
           title: "Expeditions to Mount Everest",
           description: "The adventures in the tallest mountain in the world",
-          topics: [{
+          posts: [{
             title: "My first visit to the mountain",
             body: "I saw plenty of rocks and ice."
           }]
@@ -65,7 +65,7 @@ describe("Topic", () => {
       it("should return the associated post", (done) => {
         this.topic.getPosts()
         .then((associatedPost) => {
-          expect(associatedPost.title).toBe("Expeditions to Mount Everest");
+          expect(associatedPost.title).toBe("My first visit to the mountain");
           done();
         });
       });
