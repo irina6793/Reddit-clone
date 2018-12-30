@@ -45,27 +45,13 @@ describe("Topic", () => {
        done();
      });
     });
-
-    it("should not create a topic with missing title, body, or assigned post", (done) => {
-      Topic.create({
-        title: "Best parts of the adventure"
-      }).then((topic) => {
-        // the code in this block will not be evaluated since the validation error
-        // will skip it. Instead, we'll catch the error in the catch block below
-        // and set the expectations there
-        done();
-      })
-      .catch((err) => {
-        expect(err.message).toContain("Topic.description cannot be null");
-        done();
-    });
-    });
   });
+
     describe("#getPosts()", () => {
       it("should return the associated post", (done) => {
         this.topic.getPosts()
         .then((associatedPost) => {
-          expect(associatedPost).toBe("Best parts of the adventure");
+          expect(associatedPost[0].title).toBe("My first visit to the mountain");
           done();
 
         })
