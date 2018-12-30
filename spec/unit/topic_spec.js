@@ -32,12 +32,12 @@ describe("Topic", () => {
     describe("#create()", () => {
         it("should create a topic object with a title, body, and assigned post", (done) => {
         Topic.create({
-          title: "Pros of Cryosleep during the long journey",
-          posts: "1. Not having to answer the 'are we there yet?' question.",
+          title: "Best parts of the adventure",
+          posts: "1. Not having wifi",
           topicId: this.topic.id
      }).then((topic) => {
-      expect(topic.title).toBe("Pros of Cryosleep during the long journey");
-      expect(topic.posts).toBe("1. Not having to answer the 'are we there yet?' question.");
+      expect(topic.title).toBe("Best parts of the adventure");
+      expect(topic.posts).toBe("1. Not having wifi");
       expect(topic.topicId).toBe(this.topic.id);
       done();
     }).catch((err) => {
@@ -48,7 +48,7 @@ describe("Topic", () => {
 
     it("should not create a topic with missing title, body, or assigned post", (done) => {
       Topic.create({
-        title: "Pros of Cryosleep during the long journey"
+        title: "Best parts of the adventure"
       }).then((topic) => {
         // the code in this block will not be evaluated since the validation error
         // will skip it. Instead, we'll catch the error in the catch block below
@@ -63,11 +63,19 @@ describe("Topic", () => {
   });
     describe("#getPosts()", () => {
       it("should return the associated post", (done) => {
-        this.topic.getPosts()
-        .then((associatedPost) => {
-          expect(associatedPost.title).toBe("My first visit to the mountain");
+        Topic.getPosts({
+          title: "Challenges on the adventure",
+          posts: "2. Not having a phone",
+          topicId: this.topic.id
+        }).then((topic) => {
+          expect(topic.title).toBe("Challenges on the adventure");
+          expect(topic.posts).toBe("2. Not having a phone")
+          expect(topic.topicId).toBe(this.topic.id);
           done();
-        });
+        }).catch((err) => {
+          console.log(err);
+          done();
+        })
       });
      });
     });
