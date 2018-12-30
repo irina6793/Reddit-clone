@@ -63,18 +63,11 @@ describe("Topic", () => {
   });
     describe("#getPosts()", () => {
       it("should return the associated post", (done) => {
-        Topic.getPosts({
-          title: "Challenges on the adventure",
-          posts: "2. Not having a phone",
-          topicId: this.topic.id
-        }).then((topic) => {
-          expect(topic.title).toBe("Challenges on the adventure");
-          expect(topic.posts).toBe("2. Not having a phone")
-          expect(topic.topicId).toBe(this.topic.id);
+        this.topic.getPosts()
+        .then((associatedPost) => {
+          expect(associatedPost).toBe("Best parts of the adventure");
           done();
-        }).catch((err) => {
-          console.log(err);
-          done();
+
         })
       });
      });
