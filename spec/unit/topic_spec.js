@@ -33,12 +33,12 @@ describe("Topic", () => {
         it("should create a topic object with a title, body, and assigned post", (done) => {
         Topic.create({
           title: "Pros of Cryosleep during the long journey",
-          body: "1. Not having to answer the 'are we there yet?' question.",
-          postId: this.post.id
+          posts: "1. Not having to answer the 'are we there yet?' question.",
+          topicId: this.topic.id
      }).then((topic) => {
       expect(topic.title).toBe("Pros of Cryosleep during the long journey");
-      expect(topic.body).toBe("1. Not having to answer the 'are we there yet?' question.");
-      expect(topic.postId).toBe(this.post.id);
+      expect(topic.posts).toBe("1. Not having to answer the 'are we there yet?' question.");
+      expect(topic.topicId).toBe(this.topic.id);
       done();
     }).catch((err) => {
        console.log(err);
@@ -56,18 +56,16 @@ describe("Topic", () => {
         done();
       })
       .catch((err) => {
-        expect(err.message).toContain("Topic.body cannot be null");
-        expect(err.message).toContain("Topic.postId cannot be null");
+        expect(err.message).toContain("Topic.description cannot be null");
         done();
-      });
     });
     });
-
+  });
     describe("#getPosts()", () => {
       it("should return the associated post", (done) => {
         this.topic.getPosts()
         .then((associatedPost) => {
-          expect(associatedPost.title).toBe("Expeditions to Alpha Centauri");
+          expect(associatedPost.title).toBe("Expeditions to Mount Everest");
           done();
         });
       });
