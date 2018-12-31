@@ -64,6 +64,16 @@ request.post(options,
     .then((post) => {
       expect(post).not.toBeNull();
       expect(post.title).toBe("Watching snow melt");
-
-
+      expect(post.body).toBe("Without a doubt my favoriting things to do besides watching paint dry!");
+      expect(post.topicId).not.toBeNull();
+      done();
+    })
+    .catch((err) => {
+      console.log(err);
+      done();
+     });
+    }
+   );
+  });
+ });
 });
