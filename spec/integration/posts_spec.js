@@ -35,11 +35,20 @@ describe("routes : posts", () => {
       });
     });
   });
+ });
+
+describe("GET /topics/:topicId/posts/new", () => {
+  it("should render a new post form", (done) => {
+    request.get(`${base}/${topic.id}/posts/new`, (err, res, body) => {
+      expect(err).toBeNull();
+      expect(body).toContain("New Post");
+      done();
+    });
+  });
 });
 
 describe("POST /topics/:topicId/posts/create", () => {
-
-  it("should create a new post and redirect", (done) => {
+   it("should create a new post and redirect", (done) => {
     const options = {
      url: `${base}/${this.topic.id}/posts/create`,
      form: {
@@ -87,4 +96,19 @@ describe("POST /topics/:topicId/posts/create", () => {
          });
        });
      });
+
+describe("POST /topics/:topicId/posts/:id/destroy", () => {
+  it("should delete the post with the associated ID", (done) => {
+    expect(post.id).toBe(1);
+    request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+
+      Post.findById(1)
+      .then((post) => {
+        expect(err).toBeNull();
+        expect(post).toBeNull();
+        done();
+      })
+    });
+  });
+}); 
 });
