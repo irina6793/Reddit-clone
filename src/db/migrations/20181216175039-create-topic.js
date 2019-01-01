@@ -34,11 +34,11 @@ module.exports = {
           model: "Post",   // table name
           key: "id",         // attribute to use
           as: "postId"      // reference as postId
-    });
+    };
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Topic');
    }
- })
+  })
  }
-};
+}
