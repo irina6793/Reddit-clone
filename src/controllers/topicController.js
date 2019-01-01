@@ -31,7 +31,7 @@ module.exports = {
     }
   });
  },
-  
+
  show(req, res, next){
    topicQueries.getTopic(req.params.id, (err, topic) => {
    if(err || topic == null){
@@ -44,8 +44,11 @@ module.exports = {
 edit(req, res, next){
   topicQueries.getTopic(req.params.id, (err, topic) => {
     if(err || topic == null){
+      console.log("topic not found, redirecting...");
+      console.log(err);
       res.redirect(404, "/");
     } else {
+      console.log("topic found, redirecting...");
       res.render("topics/edit", {topic});
    }
  });
