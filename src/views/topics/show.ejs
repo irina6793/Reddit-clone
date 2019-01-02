@@ -25,6 +25,15 @@
           <% }) %>
         </ul>
 
+        <hr>
+        <h1>Flair</h1>
+        <ul class="list-group">
+          <% topic.flair.forEach((flair) => { %>
+            <li class="list-group-item">
+              <a href="/topics/<%= topic.id %>/flair/<%= flair.id %>"> <%= flair.title %> </a>
+            </li>
+            <% }) %>
+          </ul>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

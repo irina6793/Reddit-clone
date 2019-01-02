@@ -1,5 +1,6 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
+const Flair = require("./models").Flair;
 
 module.exports = {
 
@@ -25,6 +26,14 @@ module.exports = {
         as: "posts"
       }]
     })
+
+    return Topic.findById(id, {
+      include: [{
+        model: Flair,
+        as: "tags"
+      }]
+    })
+    
    .then((topic) => {
      callback(null, topic);
   })
