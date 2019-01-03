@@ -19,28 +19,18 @@ module.exports = {
 
   getTopic(id, callback){
     return Topic.findById(id)
-
-    return Topic.findById(id, {
-      include: [{
-        model: Post,
-        as: "posts"
-      }]
+    //  include: [{
+    //    model: Post,
+    //    as: "posts"
+    //  }]
+  //  }
+    .then((topic) => {
+      callback(null, topic);
     })
-
-    return Topic.findById(id, {
-      include: [{
-        model: Flair,
-        as: "tags"
-      }]
-    })
-    
-   .then((topic) => {
-     callback(null, topic);
-  })
-     .catch((err) => {
-      callback(err);
-  })
-},
+      .catch((err) => {
+       callback(err);
+    });
+  },
 
 //#3
   addTopic(newTopic, callback){
@@ -55,6 +45,7 @@ module.exports = {
       callback(err);
     })
   },
+
 
  updateTopic(id, updatedTopic, callback){
     return Topic.findById(id)
