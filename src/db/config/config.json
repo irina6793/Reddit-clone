@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "tech",
-    "database": "bloccit-dev",
+    "database": "bloccit-dev-1",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,

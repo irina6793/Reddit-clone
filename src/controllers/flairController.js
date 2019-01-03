@@ -1,4 +1,4 @@
-const postQueries = require("../db/queries.posts.js");
+const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
 }
