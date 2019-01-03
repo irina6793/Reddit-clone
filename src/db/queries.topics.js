@@ -18,19 +18,20 @@ module.exports = {
   },
 
   getTopic(id, callback){
-    return Topic.findById(id)
-    //  include: [{
-    //    model: Post,
-    //    as: "posts"
-    //  }]
-  //  }
+    return Topic.findById(id, {
+      include: [{
+       model: Post,
+       as: "posts"
+    }]
+  })
     .then((topic) => {
       callback(null, topic);
     })
       .catch((err) => {
        callback(err);
-    });
+    })
   },
+
 
 //#3
   addTopic(newTopic, callback){
@@ -75,5 +76,5 @@ module.exports = {
    .catch((err) => {
      callback(err);
    })
-  }
+ },
 }
