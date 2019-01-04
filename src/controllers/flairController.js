@@ -4,7 +4,9 @@ module.exports = {
   new(req, res, next){
     res.render("flairs/new", {topicId: req.params.topicId});
   },
+  
   create(req, res, next){
+    console.log("hello")
     let newFlair= {
       title: req.body.title,
       body: req.body.body,

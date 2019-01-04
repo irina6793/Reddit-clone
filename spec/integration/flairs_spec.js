@@ -58,7 +58,7 @@ describe("routes : flairs", () => {
          body: "The ocean seems to be covered in snow and it looks icy!"
      }
    };
-     request.flair(options,
+     request.post(options,
        (err, res, body) => {
 
       Flair.findOne({where: {title: "The ocean view of snow"}})
@@ -91,7 +91,7 @@ describe("routes : flairs", () => {
   describe("POST /topics/:topicId/flairs/:id/destroy", () => {
        it("should delete the flair with the associated ID", (done) => {
          expect(this.flair.id).toBe(1);
-         request.flair(`${base}/${this.topic.id}/flairs/${this.flair.id}/destroy`, (err, res, body) => {
+         request.post(`${base}/${this.topic.id}/flairs/${this.flair.id}/destroy`, (err, res, body) => {
 
              Flair.findById(1)
               .then((flair) => {
@@ -116,7 +116,7 @@ describe("routes : flairs", () => {
 
   describe("POST /topics/:topicId/flairs/:id/update", () => {
     it("should return a status code 302", (done) => {
-       request.flair({
+       request.post({
         url: `${base}/${this.topic.id}/flairs/${this.flair.id}/update`,
         form: {
           title: "Snowman Building Competition",
@@ -134,7 +134,7 @@ describe("routes : flairs", () => {
           title: "Snowman Building Competition"
       }
     };
-    request.flair(options,
+    request.post(options,
       (err, res, body) => {
         expect(err).toBeNull();
         Flair.findOne({
