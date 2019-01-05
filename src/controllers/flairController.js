@@ -7,10 +7,9 @@ module.exports = {
   },
 
   create(req, res, next){
-    console.log("hello")
     let newFlair= {
-      title: req.body.title,
-      body: req.body.body,
+      name: req.body.name,
+      color: req.body.color,
       topicId: req.params.topicId
    };
    flairQueries.addFlair(newFlair, (err, flair) => {

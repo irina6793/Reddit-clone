@@ -99,7 +99,7 @@ describe("GET /topics/:topicId/flairs/new", () => {
          });
         });
     });
-   });
+
 
    describe("GET /topics/:topicId/flairs/:id", () => {
        it("should render a view with the selected flair", (done) => {
@@ -139,7 +139,7 @@ describe("GET /topics/:topicId/flairs/new", () => {
 })
  describe("GET /topics/:topicId/flairs/:id/edit", () => {
       it("should render a view with an edit flair form", (done) => {
-          request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
+          request.get(`${base}/topics/${this.topic.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
              expect(err).toBeNull();
              expect(flair.body).toContain("Edit Flair");
              expect(flair.body).toContain("Watching the snow melt");
@@ -180,4 +180,4 @@ describe("GET /topics/:topicId/flairs/new", () => {
       });
      });
     });
-  );
+  });
