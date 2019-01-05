@@ -4,93 +4,109 @@ const base = "http://localhost:3000/topics";
 
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
+const Post = require('../../src/db/models').Post;
 const Flair = require("../../src/db/models").Flair;
 
-describe("routes : flairs", () => {
+describe("routes : flair", () => {
+
+  this.topic;
+  this.post;
+  this.flair;
 
   beforeEach((done) => {
-    this.topic;
-    this.flair;
-
-    sequelize.sync({force: true}).then((res) => {
+        sequelize.sync({force: true}).then((res) => {
 
 //#1
      Topic.create({
       title: "Winter Games",
-      description: "Post your Winter Games stories."
-     })
+      description: "Post your Winter Games stories.",
+      posts: [{
+            title: 'Snowball Fights',
+            body: 'So much snow to play with!'
+          }]
+     }),{
+        include: {
+          model: Post,
+          as: 'posts'
+      }
+    }
      .then((topic) => {
       this.topic = topic;
-
-        Flair.create({
-          title: "Enjoying the snow",
-          description: "Blue",
-          topicId: this.topic.id
+      this.post = topic.posts[0];
+    })
+      Flair.create({
+          name: "Snow pictures",
+          color: "Blue"
         })
         .then((flair) => {
           this.flair = flair;
           done();
-        })
-        .catch((err) => {
+        });
+      });
+    })
+         .catch((err) => {
           console.log(err);
           done();
         });
       });
-    });
-});
-  describe("GET /topics/:topicId/flairs", () => {
-     it("should return a status code 200 and all flairs", (done) => {
-       request.get(base, (err, res, body) => {
-       expect(res.statusCode).toBe(200);
-       done();
-      });
-    });
-  });
 
-  describe("GET /topics/:topicId/flairs/new", () => {
-    it("should render a new flair form", (done) => {
-      request.get(`${base}/${this.topic.id}/flairs/new`, (err, res, body) => {
+
+describe("GET /topics/:topicId/flairs/new", () => {
+    it("should render a new post form", (done) => {
+      request.get(`${base}/topics/${this.topic.id}/flairs/new`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("New Flair");
+        expect(body).toContain("New Topics Flair");
         done();
       });
     });
   });
 
+  describe('GET /topics/:topicId/posts/:postId/flairs/new', () => {
+    it('should render a new post form', (done) => {
+        request.get(`${base}/topics/${this.topic.id}/posts/${this.post.id}/flairs/new`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain('New Posts Flair');
+          done();
+        });
+    });
+  });
+
   describe("POST /topics/:topicId/flairs/create", () => {
-     it("should create a new flair and redirect", (done) => {
+     it("should create a new topics flair and redirect", (done) => {
       const options = {
-       url: `${base}/${this.topic.id}/flairs/create`,
+       url: `${base}/topics${this.topic.id}/flairs/create`,
        form: {
-         title: "The ocean view of snow",
-         description: "The ocean seems to be covered in snow and it looks icy!"
+         name: "Ocean",
+         color: "Blue"
      }
    };
      request.post(options,
        (err, res, body) => {
 
-      Flair.findOne({where: {title: "The ocean view of snow"}})
+      Flair.findOne({where: {name: "Ocean"}})
         .then((flair) => {
           expect(flair).not.toBeNull();
-          expect(flair.title).toBe("Watching snow melt");
-          expect(flair.body).toBe("Without a doubt its sad to see the snow melt");
-          expect(flair.topicId).not.toBeNull();
+          expect(flair.name).toBe("Ocean");
+          expect(flair.color).toBe("Blue");
+          expect(flairs.length).toBe(1);
+          expect(flairs[0].id).toBe(flair.id);
           done();
-       })
+       });
+     })
         .catch((err) => {
           console.log(err);
           done();
          });
-        }
-      );
+        });
     });
    });
 
    describe("GET /topics/:topicId/flairs/:id", () => {
        it("should render a view with the selected flair", (done) => {
-         request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}`, (err, res, body) => {
+         request.get(`${base}/flairs/${this.flair.id}`, (err, res, body) => {
            expect(err).toBeNull();
-           expect(flair.body).toContain("Watching the snow melt");
+           expect(body).toContain("Snow Pictures");
+           expect(body).toContain("Blue")
            done();
          });
        });
@@ -101,16 +117,26 @@ describe("routes : flairs", () => {
          expect(this.flair.id).toBe(1);
          request.post(`${base}/${this.topic.id}/flairs/${this.flair.id}/destroy`, (err, res, body) => {
 
-             Flair.findById(1)
-              .then((flair) => {
+             Flair.findAll()
+              .then((flairs) => {
+                {
+        const flairCountBeforeDelete = flairs.length;
+        expect(flairCountBeforeDelete).toBe(1);
+        request.post(`${base}/flairs/${this.flair.id}/destroy`, (err, res, body) =>
+        {
+          Flair.findAll()
+          .then((flairs) =>
+          {
                expect(err).toBeNull();
                expect(flair).toBeNull();
                done();
              })
            });
-         });
+         };
        });
-
+});
+});
+})
  describe("GET /topics/:topicId/flairs/:id/edit", () => {
       it("should render a view with an edit flair form", (done) => {
           request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
@@ -154,5 +180,4 @@ describe("routes : flairs", () => {
       });
      });
     });
-  });
-})
+  );

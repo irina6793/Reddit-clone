@@ -3,16 +3,7 @@ const Topic = require("./models").Topic;
 
 module.exports = {
 
-  getAllFlairs(callback){
-    return Flair.all()
 
-    .then((flairs) => {
-     callback(null, flairs);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },
   addFlair(newFlair, callback){
     return Flair.create(newFlair)
     .then((flair) => {

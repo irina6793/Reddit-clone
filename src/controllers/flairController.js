@@ -1,19 +1,7 @@
 const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
-  index(req, res, next) {
-    flairQueries.getAllFlairs((err, flairs) => {
-      if(err){
 
-    res.redirect(500, "static/index");
-  } else {
-
-
-  console.log("\n");
-    res.render("flair/index", {flairs});
-  }
-})
-},
   new(req, res, next){
     res.render("flairs/new", {topicId: req.params.topicId});
   },
