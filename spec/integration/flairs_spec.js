@@ -51,7 +51,7 @@ describe("routes : flairs", () => {
     it("should render a new flair form", (done) => {
       request.get(`${base}/${this.topic.id}/flairs/new`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(flair.body).toContain("New Flair");
+        expect(body).toContain("New Flair");
         done();
       });
     });
@@ -63,7 +63,7 @@ describe("routes : flairs", () => {
        url: `${base}/${this.topic.id}/flairs/create`,
        form: {
          title: "The ocean view of snow",
-         body: "The ocean seems to be covered in snow and it looks icy!"
+         description: "The ocean seems to be covered in snow and it looks icy!"
      }
    };
      request.post(options,
@@ -128,7 +128,7 @@ describe("routes : flairs", () => {
         url: `${base}/${this.topic.id}/flairs/${this.flair.id}/update`,
         form: {
           title: "Snowman Building Competition",
-          body: "I love watching them melt slowly."
+          description: "I love watching them melt slowly."
       }
     }, (err, res, body) => {
       expect(res.statusCode).toBe(302);
