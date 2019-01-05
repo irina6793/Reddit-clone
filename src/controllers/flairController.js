@@ -29,6 +29,24 @@ module.exports = {
       }
     });
   },
+  edit(req, res, next){
+     flairQueries.getFlair(req.params.id, (err, flair) => {
+       if(err || flair == null){
+         res.redirect(404, "/");
+       } else {
+         res.render("flairs/edit", {flair});
+       }
+    });
+   },
+   update(req, res, next){
+     flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
+       if(err || flair == null){
+         res.redirect(404, `/topics/${req.params.topicId}/flairs/${req.params.id}/edit`);
+       } else {
+         res.redirect(`/topics/${req.params.topicId}/flairs/${req.params.id}`);
+       }
+     });
+   },
   destroy(req, res, next){
     flairQueries.deleteFlair(req.params.id, (err, deletedRecordsCount) => {
       if(err){
@@ -38,22 +56,4 @@ module.exports = {
       }
    });
  },
- edit(req, res, next){
-    flairQueries.getFlair(req.params.id, (err, flair) => {
-      if(err || flair == null){
-        res.redirect(404, "/");
-      } else {
-        res.render("flairs/edit", {flair});
-      }
-   });
-  },
-  update(req, res, next){
-    flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
-      if(err || flair == null){
-        res.redirect(404, `/topics/${req.params.topicId}/flairs/${req.params.id}/edit`);
-      } else {
-        res.redirect(`/topics/${req.params.topicId}/flairs/${req.params.id}`);
-      }
-    });
-  }
 }
