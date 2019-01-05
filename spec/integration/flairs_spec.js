@@ -15,12 +15,12 @@ describe("routes : flairs", () => {
     sequelize.sync({force: true}).then((res) => {
 
 //#1
-      Topic.create({
-        title: "Winter Games Finals",
-        description: "Tag your Winter Games experiences."
-      })
-      .then((topic) => {
-        this.topic = topic;
+     Topic.create({
+      title: "Winter Games",
+      description: "Post your Winter Games stories."
+     })
+     .then((topic) => {
+      this.topic = topic;
 
         Flair.create({
           title: "Enjoying the snow",
@@ -37,13 +37,21 @@ describe("routes : flairs", () => {
         });
       });
     });
+});
+  describe("GET /topics/:topicId/flairs", () => {
+     it("should return a status code 200 and all flairs", (done) => {
+       request.get(base, (err, res, body) => {
+       expect(res.statusCode).toBe(200);
+       done();
+      });
+    });
   });
 
   describe("GET /topics/:topicId/flairs/new", () => {
     it("should render a new flair form", (done) => {
       request.get(`${base}/${this.topic.id}/flairs/new`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("New Flair");
+        expect(flair.body).toContain("New Flair");
         done();
       });
     });
@@ -82,7 +90,7 @@ describe("routes : flairs", () => {
        it("should render a view with the selected flair", (done) => {
          request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}`, (err, res, body) => {
            expect(err).toBeNull();
-           expect(body).toContain("Watching the snow melt");
+           expect(flair.body).toContain("Watching the snow melt");
            done();
          });
        });
@@ -107,8 +115,8 @@ describe("routes : flairs", () => {
       it("should render a view with an edit flair form", (done) => {
           request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
              expect(err).toBeNull();
-             expect(body).toContain("Edit Flair");
-             expect(body).toContain("Watching the snow melt");
+             expect(flair.body).toContain("Edit Flair");
+             expect(flair.body).toContain("Watching the snow melt");
              done();
           });
          });
