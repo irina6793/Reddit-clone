@@ -27,7 +27,6 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       }
     }
-  });
 },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Topic');
