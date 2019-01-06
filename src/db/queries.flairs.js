@@ -5,6 +5,7 @@ module.exports = {
 
 
   addFlair(newFlair, callback){
+    console.log("NEW FLAIR:",newFlair);
     return Flair.create(newFlair)
     .then((flair) => {
       callback(null, flair);

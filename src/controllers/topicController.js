@@ -9,6 +9,7 @@ module.exports = {
 
 //#3
   if(err){
+    console.log(err)
     res.redirect(500, "static/index");
   } else {
     res.render("topics/index", {topics});
