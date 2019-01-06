@@ -80,7 +80,7 @@ describe("GET /topics/:topicId/flairs/:id", () => {
        it("should render a view with the selected flair", (done) => {
          request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}`, (err, res, body) => {
            expect(err).toBeNull();
-           expect(body).toContain("Snow Pictures");
+           expect(body).toContain("Snow pictures");
            done();
          });
        });
@@ -91,7 +91,7 @@ describe("GET /topics/:topicId/flairs/:id/edit", () => {
       request.get(`${base}/${this.topic.id}/flairs/${this.flair.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Edit Flair");
-          expect(body).toContain("Snow Pictures");
+          expect(body).toContain("Snow pictures");
           done();
         });
       });

@@ -3,17 +3,15 @@ const Topic = require("./models").Topic;
 
 module.exports = {
 
-
   addFlair(newFlair, callback){
-    console.log("NEW FLAIR:",newFlair);
-    return Flair.create(newFlair)
-    .then((flair) => {
-      callback(null, flair);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },
+      return Flair.create(newFlair)
+      .then((flair) => {
+        callback(null, flair);
+      })
+      .catch((err) => {
+        callback(err);
+      })
+    },
 
   getFlair(id, callback){
     return Flair.findById(id)
