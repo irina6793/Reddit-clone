@@ -26,7 +26,7 @@ return res.redirect(303, req.headers.referer)
 validateTopic(req, res, next) {
 
  //#1
- if(req.method === "POST") {
+ if(req.method === "TOPIC") {
 
  //#2
  req.checkParams("topicId", "must be valid").notEmpty().isInt();
