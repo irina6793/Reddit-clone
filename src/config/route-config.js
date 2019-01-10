@@ -8,6 +8,11 @@ module.exports = {
     const advertisementRoutes = require("../routes/advertisement");
     const marcoRoutes = require("../routes/marco");
 
+    if(process.env.NODE_ENV === "test") {
+      const mockAuth = require("../../spec/support/mock-auth.js");
+      mockAuth.fakeIt(app);
+    }
+
     app.use(staticRoutes);
     app.use(postRoutes);
     app.use(userRoutes);

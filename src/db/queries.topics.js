@@ -54,8 +54,10 @@ module.exports = {
       if(!topic){
         return callback("Topic not found");
       }
+      const authorized = new Authorizer(req.user, topic).update();
+      if(authorized) {
         topic.update(updatedTopic, {
-        fields: Object.keys(updatedTopic)
+          fields: Object.keys(updatedTopic)
       })
       .then(() => {
         callback(null, topic);
@@ -63,18 +65,35 @@ module.exports = {
       .catch((err) => {
         callback(err);
       });
-    });
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      callback("Forbidden");
+    }
+   });
   },
 
-  deleteTopic(id, callback){
-    return Topic.destroy({
-      where: {id}
-  })
-   .then((topic) => {
+  deleteTopic(req, callback){
+// #1
+  return Topic.findById(req.params.id)
+  .then((topic) => {
+
+// #2
+   const authorized = new Authorizer(req.user, topic).destroy();
+   if(authorized) {
+// #3
+   topic.destroy()
+   .then((res) => {
      callback(null, topic);
-   })
-   .catch((err) => {
-     callback(err);
-   })
- },
+   });
+ } else {
+
+// #4
+req.flash("notice", "You are not authorized to do that.")
+callback(401);
+}
+})
+.catch((err) => {
+  callback(err);
+});
+}
 }

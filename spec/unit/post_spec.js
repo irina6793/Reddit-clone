@@ -30,15 +30,17 @@ describe("Post", () => {
     });
 
  describe("#create()", () => {
-     it("should create a post object with a title, body, and assigned topic", (done) => {
+     it("should create a post object with a title, body, and assigned topic and user", (done) => {
      Post.create({
        title: "Pros of Cryosleep during the long journey",
        body: "1. Not having to answer the 'are we there yet?' question.",
-       topicId: this.topic.id
+       topicId: this.topic.id,
+       userId: this.user.id
   }).then((post) => {
    expect(post.title).toBe("Pros of Cryosleep during the long journey");
    expect(post.body).toBe("1. Not having to answer the 'are we there yet?' question.");
    expect(post.topicId).toBe(this.topic.id);
+   expect(post.userId).toBe(this.user.id);
    done();
 }).catch((err) => {
     console.log(err);
@@ -83,6 +85,33 @@ describe("#getTopic()", () => {
     this.post.getTopic()
     .then((associatedTopic) => {
       expect(associatedTopic.title).toBe("Expeditions to Alpha Centauri");
+      done();
+    });
+  });
+ });
+
+describe("#setUser()", () => {
+  it("should associate a post and a user together", (done) => {
+    User.create({
+      email: "ada@example.com",
+      password: "password"
+    })
+    .then((newUser) => {
+      expect(this.post.userId).toBe(this.user.id);
+      this.post.setUser(newUser)
+      .then((post) => {
+        expect(this.post.userId).toBe(newUser.id);
+        done();
+      });
+    })
+  });
+});
+
+describe("#getUser()", () => {
+  it("should return the associated topic", (done) => {
+    this.post.getUser()
+    .then((associatedUser) => {
+      expect(associatedUser.email).toBe("starman@tesla.com");
       done();
     });
   });
