@@ -15,13 +15,12 @@ describe("routes : posts", () => {
     this.user;
 
     sequelize.sync({force: true}).then((res) => {
-
       User.create({
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
       })
       .then((user) => {
-        this.user = user; //store the user
+        this.user = user;
 
       Topic.create({
        title: "Winter Games",
@@ -84,51 +83,43 @@ describe("POST /topics/:topicId/posts/create", () => {
       }
     );
   });
-  it("should not create a new post that fails validations", (done) => {
-    const options = {
-      url: `${base}/${this.topic.id}/posts/create`,
-      form: {
-        title: "a",
-        body: "b"
-      }
-    };
-    request.post(options,
-      (err, res, body) => {
+});
 
-        Post.findOne({where: {title: "a"}})
+describe("GET /topics/:topicId/posts/:id", () => {
+    it("should render a view with the selected post", (done) => {
+      request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Snowball Fighting");
+        done();
+      });
+    });
+  });
+
+  describe("POST /topics/:topicId/posts/:id/destroy", () => {
+    it("should delete the post with the associated ID", (done) => {
+      expect(this.post.id).toBe(1);
+      request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+
+        Post.findById(1)
         .then((post) => {
+          expect(err).toBeNull();
           expect(post).toBeNull();
           done();
         })
-        .catch((err) => {
-          console.log(err);
-          done();
-        });
-      }
-    );
+      });
+    });
   });
- });
 
- describe("GET /topics/:topicId/posts/:id", () => {
-     it("should render a view with the selected post", (done) => {
-       request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
-         expect(err).toBeNull();
-         expect(body).toContain("Snowball Fighting");
-         done();
-       });
-     });
-   });
-
- describe("GET /topics/:topicId/posts/:id/edit", () => {
-    it("should render a view with an edit post form", (done) => {
-         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
-           expect(err).toBeNull();
-           expect(body).toContain("Edit Post");
-           expect(body).toContain("Snowball Fighting");
-           done();
-         });
-       });
-     });
+  describe("GET /topics/:topicId/posts/:id/edit", () => {
+     it("should render a view with an edit post form", (done) => {
+          request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).toContain("Edit Post");
+            expect(body).toContain("Snowball Fighting");
+            done();
+          });
+        });
+      });
 
 describe("POST /topics/:topicId/posts/:id/update", () => {
   it("should return a status code 302", (done) => {
@@ -164,18 +155,27 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
    });
   });
 });
-describe("POST /topics/:topicId/posts/:id/destroy", () => {
-  it("should delete the post with the associated ID", (done) => {
-    expect(this.post.id).toBe(1);
-    request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+it("should not create a new post that fails validations", (done) => {
+    const options = {
+     url: `${base}/${this.topic.id}/posts/create`,
+      form: {
+        title: "a",
+        body: "b"
+      }
+    };
+    request.post(options,
+      (err, res, body) => {
 
-      Post.findById(1)
-      .then((post) => {
-        expect(err).toBeNull();
-        expect(post).toBeNull();
-        done();
-      })
-    });
-  });
-});
+        Post.findOne({where: {title: "a"}})
+        .then((post) => {
+          expect(post).toBeNull();
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      }
+    );
+ });
 });

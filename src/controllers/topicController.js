@@ -46,7 +46,7 @@ if(authorized) {
 } else {
   // #3
   req.flash("notice", "You are not authorized to do that.");
-  res.redirect("/topics");
+  res.redirect(303, "/topics");
  }
 },
 

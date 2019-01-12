@@ -1,16 +1,12 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics/";
-
-//#1
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const User = require("../../src/db/models").User;
 
 describe("routes : topics", () => {
-
-//#2
-beforeEach((done) => {
+   beforeEach((done) => {
       this.topic;
       this.post;
       this.user;
@@ -47,11 +43,8 @@ beforeEach((done) => {
       })
     });
 
-// #1: define the admin user context
-describe("admin user performing CRUD actions for Topic", () => {
 
-// #2: // before each test in admin user context, send an authentication request
-      // to a route we will create to mock an authentication request
+describe("admin user performing CRUD actions for Topic", () => {
   beforeEach((done) => {
     User.create({
       email: "admin@example.com",
@@ -73,7 +66,29 @@ describe("admin user performing CRUD actions for Topic", () => {
     );
    });
  });
+     describe("GET /topics", () => { /* suite implementation */ });
+     describe("GET /topics/new", () => { /* suite implementation */ });
+     describe("POST /topics/create", () => { /* suite implementation */ });
+     describe("GET /topics/:id", () => { /* suite implementation */ });
+     describe("POST /topics/:id/destroy", () => { /* suite implementation */ });
+     describe("GET /topics/:id/edit", () => { /* suite implementation */ });
+     describe("POST /topics/:id/update", () => { /* suite implementation */ });
 });
+
+  describe("member user performing CRUD actions for Topic", () => {
+     beforeEach((done) => {
+         request.get({
+           url: "http://localhost:3000/auth/fake",
+           form: {
+             role: "member"
+          }
+       },
+           (err, res, body) => {
+             done();
+          }
+       );
+     });
+   });
 
 describe("GET /topics", () => {
     it("should return a status code 200 and all topics", (done) => {
