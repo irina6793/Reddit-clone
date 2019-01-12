@@ -4,6 +4,7 @@ const base = "http://localhost:3000/topics/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const User = require("../../src/db/models").User;
+const Post = require("../../src/db/models").Post;
 
 describe("routes : topics", () => {
    beforeEach((done) => {
@@ -88,7 +89,15 @@ describe("admin user performing CRUD actions for Topic", () => {
           }
        );
      });
-   });
+     describe("GET /topics", () => { /* suite implementation */ });
+    describe("GET /topics/new", () => { /* suite implementation */ });
+    describe("POST /topics/create", () => { /* suite implementation */ });
+    describe("GET /topics/:id", () => { /* suite implementation */ });
+    describe("POST /topics/:id/destroy", () => { /* suite implementation */ });
+    describe("GET /topics/:id/edit", () => { /* suite implementation */ });
+    describe("POST /topics/:id/update", () => { /* suite implementation */ });
+  });
+
 
 describe("GET /topics", () => {
     it("should return a status code 200 and all topics", (done) => {
