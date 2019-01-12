@@ -1,45 +1,63 @@
+const request = require("request");
+const server = require("../../src/server");
+const base = "http://localhost:3000/topics/";
 
-       const request = require("request");
-       const server = require("../../src/server");
-       const base = "http://localhost:3000/topics/";
+const sequelize = require('../../src/db/models/index').sequelize;
+const Topic = require("../../src/db/models").Topic;
+const User = require("../../src/db/models").User;
 
-       const sequelize = require('../../src/db/models/index').sequelize;
-       const Topic = require("../../src/db/models").Topic;
 
-       describe("routes : topics", () => {
+describe("routes : topics", () => {
+   beforeEach((done) => { // before each context
+        this.topic;   // define variables and bind to context
+        sequelize.sync({ force: true }).then(() => {  // clear database
+     Topic.create({
+          title: "JS Frameworks",
+          description: "There is a lot of them"
+    })
+         .then((res) => {
+            this.topic = res;  // store resulting topic in context
+          done();
+    })
+         .catch((err) => {
+            console.log(err);
+            done();
+      })
+    });
+ });
 
-         beforeEach((done) => { // before each context
-           this.topic;   // define variables and bind to context
-           sequelize.sync({ force: true }).then(() => {  // clear database
-             Topic.create({
-               title: "JS Frameworks",
-               description: "There is a lot of them"
-             })
-             .then((res) => {
-               this.topic = res;  // store resulting topic in context
-               done();
-             })
-             .catch((err) => {
-               console.log(err);
-               done();
-             })
-           });
-         });
+// context of admin user
+describe("admin user performing CRUD actions for Topic", () => {
+    beforeEach((done) => {  // before each suite in admin context
+        User.create({         // mock authentication
+          email: "irina6793@yahoo.com",
+          password: "techjob2019",
+          role: "admin"     // mock authenticate as admin user
+        })
+        .then((user) => {
+          request.get({         // mock authentication
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: user.role,     // mock authenticate as admin user
+              userId: user.id,
+              email: user.email
+            }
+          },
+            (err, res, body) => {
+              done();
+          }
+        );
+      });
+    });
 
-         // context of admin user
-         describe("admin user performing CRUD actions for Topic", () => {
 
-           beforeEach((done) => {  // before each suite in admin context
-             request.get({         // mock authentication
-               url: "http://localhost:3000/auth/fake",
-               form: {
-                 role: "admin"     // mock authenticate as admin user
-               }
-             });
-             done();
-           });
 
-           describe("GET /topics", () => {
+
+
+
+
+
+describe("GET /topics", () => {
 
              it("should respond with all topics", (done) => {
                request.get(base, (err, res, body) => {
@@ -103,30 +121,23 @@
 
            });
 
-           describe("POST /topics/:id/destroy", () => {
-
-
-             it("should delete the topic with the associated ID", (done) => {
-               Topic.all()
-               .then((topics) => {
-                 const topicCountBeforeDelete = topics.length;
-
-                 expect(topicCountBeforeDelete).toBe(1);
-
-                 request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
-                   Topic.all()
-                   .then((topics) => {
-                     expect(err).toBeNull();
-                     expect(topics.length).toBe(topicCountBeforeDelete - 1);
-                     done();
-                   })
-
-                 });
-               })
-
-             });
-
-           });
+describe("POST /topics/:id/destroy", () => {
+    it("should delete the topic with the associated ID", (done) => {
+        Topic.all()
+             .then((topics) => {
+              const topicCountBeforeDelete = topics.length;
+              expect(topicCountBeforeDelete).toBe(1);
+                     request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
+        Topic.all()
+             .then((topics) => {
+              expect(err).toBeNull();
+              expect(topics.length).toBe(topicCountBeforeDelete - 1);
+              done();
+            })
+          });
+        })
+      });
+   });
 
            describe("GET /topics/:id/edit", () => {
 
@@ -147,7 +158,7 @@
                request.post({
                  url: `${base}${this.topic.id}/update`,
                  form: {
-                   title: "JavaScript Frameworks",
+                   title: "JS Frameworks",
                    description: "There are a lot of them"
                  }
                }, (err, res, body) => {
@@ -156,7 +167,7 @@
                    where: {id:1}
                  })
                  .then((topic) => {
-                   expect(topic.title).toBe("JavaScript Frameworks");
+                   expect(topic.title).toBe("JS Frameworks");
                    done();
                  });
                });
@@ -166,31 +177,28 @@
 
          }); //end context for admin user
 
-         // context of member user
-         describe("member user performing CRUD actions for Topic", () => {
+ // context of member user
+describe("member user performing CRUD actions for Topic", () => {
+    beforeEach((done) => {  // before each suite in admin context
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+            form: {
+            role: "member"
+        }
+    });
+        done();
+});
 
-           beforeEach((done) => {  // before each suite in admin context
-             request.get({
-               url: "http://localhost:3000/auth/fake",
-               form: {
-                 role: "member"
-               }
-             });
-             done();
-           });
-
-           describe("GET /topics", () => {
-
-             it("should respond with all topics", (done) => {
-               request.get(base, (err, res, body) => {
-                 expect(err).toBeNull();
-                 expect(body).toContain("Topics");
-                 expect(body).toContain("JS Frameworks");
-                 done();
-               });
-             });
-
-           });
+describe("GET /topics", () => {
+    it("should respond with all topics", (done) => {
+       request.get(base, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Topics");
+          expect(body).toContain("JS Frameworks");
+        done();
+      });
+    });
+  });
 
            describe("GET /topics/new", () => {
 
