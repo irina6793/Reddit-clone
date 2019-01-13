@@ -22,8 +22,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
    },
- })
-
+    role: {
+       type: DataTypes.STRING,
+       allowNull: false,
+       defaultValue: "admin"
+   },
+})
   Post.associate = function(models) {
     // associations can be defined here
 
@@ -38,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
      foreignKey: "userId",
      onDelete: "CASCADE"
    });
+ };
+
+     return Post;
   };
-  return Post;
-};

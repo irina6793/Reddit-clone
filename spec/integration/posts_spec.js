@@ -1,7 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
-
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
@@ -15,6 +14,7 @@ describe("routes : posts", () => {
     this.user;
 
     sequelize.sync({force: true}).then((res) => {
+
       User.create({
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
@@ -37,14 +37,36 @@ describe("routes : posts", () => {
     }
   })
     .then((topic) => {
-      this.topic = topic; //store the topic
-      this.post = topic.posts[0]; //store the post
+      this.topic = topic;
+      this.post = topic.posts[0];
       done();
-    })
-  })
+    });
+  });
  });
 });
 
+// context of admin user
+describe("admin user performing CRUD actions for Post", () => {
+    beforeEach((done) => {  // before each suite in admin context
+        User.create({         // mock authentication
+          email: "irina6793@yahoo.com",
+          password: "techjob2019",
+          role: "admin"     // mock authenticate as admin user
+        })
+        .then((user) => {
+          request.get({         // mock authentication
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: user.role,     // mock authenticate as admin user
+              userId: user.id,
+              email: user.email
+            }
+          },
+            (err, res, body) => {
+              done();
+          });
+      });
+    });
 
 describe("GET /topics/:topicId/posts/new", () => {
   it("should render a new post form", (done) => {
@@ -62,7 +84,7 @@ describe("POST /topics/:topicId/posts/create", () => {
      url: `${base}/${this.topic.id}/posts/create`,
      form: {
        title: "Watching snow melt",
-       body: "Without a doubt my favoriting things to do besides watching paint dry!"
+       body: "Without a doubt my favoriting things to do!"
    }
  };
    request.post(options,
@@ -75,15 +97,11 @@ describe("POST /topics/:topicId/posts/create", () => {
         expect(post.body).toBe("Without a doubt my favoriting things to do besides watching paint dry!");
         expect(post.topicId).not.toBeNull();
         done();
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
-       });
-      }
-    );
+      });
+    });
+   });
   });
-});
+
 
 describe("GET /topics/:topicId/posts/:id", () => {
     it("should render a view with the selected post", (done) => {
@@ -170,12 +188,109 @@ it("should not create a new post that fails validations", (done) => {
         .then((post) => {
           expect(post).toBeNull();
           done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
         });
-      }
-    );
+      });
+    });
  });
-});
+
+describe("all user performing CRUD actions for Posts", () => {
+  beforeEach((done) => {
+    request.get({
+      url: "http://localhost:3000/auth/fake",
+      form: {
+        role: "all"
+      }
+    }, (err, res, body) => {
+        done();
+      });
+  });
+
+describe("GET /topics/:topicId/posts/new", () => {
+    it("should redirect to the topics view", (done) => {
+      request.get(`${base}/${this.topic.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Topics");
+        done();
+      });
+    });
+  });
+
+describe("POST /topics/:topicId/posts/create", () => {
+   it("should not create a new post", (done) => {
+      const options = {
+        url: `${base}/${this.topic.id}/posts/create`,
+        form: {
+        title: "Watching snow melt",
+        body: "Without a doubt my favoriting things to do!"
+      }
+   }
+       request.post(options, (err, res, body) => {
+        Post.findOne({ where: {title: "Watching snow melt"}})
+            .then((post) => {
+              expect(post).toBeNull();
+              done();
+            }).catch((err) => {
+              console.log(err);
+              done();
+            });
+          });
+        });
+      });
+
+describe("GET /topics/:topicId/posts/:id", () => {
+  it("should render a view with the selected post", (done) => {
+     request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).toContain("Snowball Fighting");
+            done();
+          });
+        });
+      });
+
+describe("POST /topics/:topicId/posts/:id/destroy", () => {
+  it("should not delete the post with the associated ID", (done) => {
+      expect(this.post.id).toBe(1);
+          request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+          Post.findById(1)
+            .then((post) => {
+              expect(err).toBeNull();
+              expect(post.title).toBe("Snowball Fighting");
+              expect(post.body).toBe("So much snow!");
+              done();
+            });
+          });
+        });
+      });
+
+describe("GET /topics/:topicId/post/:id/edit", () => {
+    it("should not render a view with an edit post", (done) => {
+       request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).not.toContain("Edit Post");
+            done();
+          });
+        });
+      });
+
+describe("POST /topics/:topicId/post/:id/update", () => {
+    it("should not update the post with the given data", (done) => {
+        const options = {
+            url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+            form: {
+              title: "Snowball Fighting",
+              description: "So much snow!"
+            }
+          }
+        request.post(options, (err, res, body) => {
+            expect(err).toBeNull();
+            Post.findOne({
+              where: {id: 1}
+            }).then((post) => {
+              expect(post.title).toBe("Snowball Fighting");
+              done();
+            });
+          });
+        });
+      });
+    });
+  });

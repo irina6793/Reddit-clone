@@ -50,39 +50,28 @@ describe("admin user performing CRUD actions for Topic", () => {
       });
     });
 
-
-
-
-
-
-
-
 describe("GET /topics", () => {
-
-             it("should respond with all topics", (done) => {
-               request.get(base, (err, res, body) => {
+     it("should respond with all topics", (done) => {
+         request.get(base, (err, res, body) => {
                  expect(err).toBeNull();
                  expect(body).toContain("Topics");
                  expect(body).toContain("JS Frameworks");
                  done();
-               });
-             });
+            });
+       });
+    });
 
+describe("GET /topics/new", () => {
+    it("should render a view with a new topic form", (done) => {
+        request.get(`${base}new`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("New Topic");
+                done();
+              });
+             });
            });
 
-           describe("GET /topics/new", () => {
-
-             it("should render a view with a new topic form", (done) => {
-               request.get(`${base}new`, (err, res, body) => {
-                 expect(err).toBeNull();
-                 expect(body).toContain("New Topic");
-                 done();
-               });
-             });
-
-           });
-
-           describe("POST /topics/create", () => {
+describe("POST /topics/create", () => {
              const options = {
                url: `${base}create`,
                form: {

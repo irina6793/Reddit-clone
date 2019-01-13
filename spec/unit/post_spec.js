@@ -1,15 +1,24 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+const User = require("../../src/db/models").User;
+
 
 describe("Post", () => {
 
   beforeEach((done) => {
-      // this.topic = this.topic;
-      // this.post = this.post;
+       this.topic = this.topic;
+       this.post = this.post;
+       this.user = this.user;
 
       sequelize.sync({force: true}).then((res) => {
-        Topic.create({
+      User.create({
+           email: "irinasverzhanovskaya69@gmail.com",
+           password: "juniordeveloper"
+      }).then((user) => {
+          this.user = user;
+
+      Topic.create({
           title: "Expeditions to Alpha Centauri",
           description: "A compilation of reports from recent visits to the star system.",
           posts: [{
@@ -116,4 +125,5 @@ describe("#getUser()", () => {
     });
   });
  });
+});
 });
