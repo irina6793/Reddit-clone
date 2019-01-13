@@ -15,7 +15,7 @@ module.exports = {
     })
   },
 
-  getPost(req, callback){
+  getPost(id, callback){
     return Post.findById(id)
     .then((post) => {
       callback(null, post);
@@ -36,7 +36,7 @@ module.exports = {
     })
   },
 
-  updatePost(req, updatedPost, callback){
+  updatePost(id, updatedPost, callback){
     return Post.findById(id)
     .then((post) => {
       if(!post){

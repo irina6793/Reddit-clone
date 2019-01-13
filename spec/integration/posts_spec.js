@@ -115,14 +115,19 @@ describe("GET /topics/:topicId/posts/:id", () => {
 
   describe("POST /topics/:topicId/posts/:id/destroy", () => {
     it("should delete the post with the associated ID", (done) => {
-      expect(this.post.id).toBe(1);
-      request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+       Post.all(1)
+           .then((post) => {
+            const postCountBeforeDelete = posts.length;
+            expect(postCountBeforeDelete).toBe(1);
+                   request.post(`${base}${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+       Post.all(1)
+           .then((post) => {
+            expect(err).toBeNull();
+            expect(posts.length).toBe(postCountBeforeDelete - 1);
+            done();
 
-        Post.findById(1)
-        .then((post) => {
-          expect(err).toBeNull();
-          expect(post).toBeNull();
-          done();
+
+          })
         })
       });
     });
