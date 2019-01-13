@@ -3,6 +3,29 @@ const Topic = require("./models").Topic;
 
 module.exports = {
 
+  getAllPosts(callback){
+    return Post.all()
+
+  //#2
+    .then((posts) => {
+      callback(null, posts);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
+
+  getPost(req, callback){
+    return Post.findById(id)
+    .then((post) => {
+      callback(null, post);
+  })
+  .catch((err) => {
+    callback(err);
+   })
+  },
+
+
   addPost(newPost, callback){
     return Post.create(newPost)
     .then((post) => {
@@ -13,17 +36,7 @@ module.exports = {
     })
   },
 
-  getPost(id, callback){
-    return Post.findById(id)
-    .then((post) => {
-      callback(null, post);
-  })
-  .catch((err) => {
-    callback(err);
-  })
-},
-
-  updatePost(id, updatedPost, callback){
+  updatePost(req, updatedPost, callback){
     return Post.findById(id)
     .then((post) => {
       if(!post){
@@ -41,7 +54,7 @@ module.exports = {
    });
 },
 
-  deletePost(id, callback){
+  deletePost(req, callback){
     return Post.destroy({
       where: { id }
     })

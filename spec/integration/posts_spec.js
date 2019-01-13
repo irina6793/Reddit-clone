@@ -94,7 +94,7 @@ describe("POST /topics/:topicId/posts/create", () => {
        .then((post) => {
         expect(post).not.toBeNull();
         expect(post.title).toBe("Watching snow melt");
-        expect(post.body).toBe("Without a doubt my favoriting things to do besides watching paint dry!");
+        expect(post.body).toBe("Without a doubt my favoriting things to do!");
         expect(post.topicId).not.toBeNull();
         done();
       });
@@ -144,7 +144,7 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
     request.post({
       url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
       form: {
-        title: "Snowman Building Competition",
+        title: "Snowball Fighing",
         body: "I love watching them melt slowly."
     }
   }, (err, res, body) => {
@@ -156,7 +156,7 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
      const options = {
        url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
        form: {
-         title: "Snowman Building Competition",
+         title: "Snowball Fighting",
          body: "I love watching them melt slowly."
     }
   };
@@ -167,7 +167,7 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
         where: {id: this.post.id}
      })
      .then((post) => {
-       expect(post.title).toBe("Snowman Building Competition");
+       expect(post.title).toBe("Snowball Fighting");
        done();
     });
    });
