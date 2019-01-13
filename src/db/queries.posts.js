@@ -54,9 +54,9 @@ module.exports = {
    });
 },
 
-  deletePost(req, callback){
+  deletePost(id, callback){
     return Post.destroy({
-      where: { id }
+      where: { id  }
     })
     .then((deletedRecordsCount) => {
       callback(null, deletedRecordsCount);

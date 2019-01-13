@@ -88,14 +88,14 @@ describe("POST /topics/create", () => {
               expect(topic.description).toBe("What's your favorite blink-182 song?");
                done();
            })
-             .catch((err) =>
+             .catch((err) => {
                 console.log(err);
                done();
            });
         }
        );
      });
-   });
+   })
 
 describe("GET /topics/:id", () => {
        it("should render a view with the selected topic", (done) => {

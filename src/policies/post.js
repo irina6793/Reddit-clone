@@ -5,11 +5,11 @@ module.exports = class PostPolicy extends ApplicationPolicy {
 
 // #2
 new() {
-  return this._isAdmin();
+  return this.all();
 }
 
 create() {
-  return this.new();
+  return this._isAdmin();
 }
 
 // #3
@@ -18,10 +18,10 @@ edit() {
 }
 
 update() {
-  return this.edit();
+  return this._isAdmin();
 }
 
 destroy() {
-  return this.update();
+  return this._isAdmin();
 }
 }
