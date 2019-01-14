@@ -17,8 +17,7 @@ describe("Post", () => {
            password: "juniordeveloper"
       }).then((user) => {
           this.user = user;
-
-      Topic.create({
+     Topic.create({
           title: "Expeditions to Alpha Centauri",
           description: "A compilation of reports from recent visits to the star system.",
           posts: [{

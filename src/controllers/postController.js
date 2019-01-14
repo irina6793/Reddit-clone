@@ -3,13 +3,7 @@ const Authorizer = require("../policies/post");
 
 module.exports = {
   new(req, res, next){
-    const authorized = new Authorizer(req.user).new();
-    if(authorized) {
-       res.render("posts/new", {topicId: req.params.topicId});
-    }else {
-      req.flash("notice", "You are not authorized to do that!");
-      res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}/new`);
-     }
+      res.render("posts/new", {topicId: req.params.topicId});
   },
   create(req, res, next){
     const authorized = new Authorizer(req.user).create();
@@ -41,18 +35,22 @@ module.exports = {
       }
     });
   },
+  destroy(req, res, next){
+    postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
+      if(err){
+        res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
+      } else {
+        res.redirect(303, `/topics/${req.params.topicId}`)
+      }
+   });
+ },
+
   edit(req, res, next){
     postQueries.getPost(req.params.id, (err, post) => {
       if(err || post == null){
         res.redirect(404, "/");
       } else {
-        const authorized = new Authorizer(req.user, post).edit();
-        if(authorized) {
            res.render("posts/edit", {post});
-         }else {
-           req.flash("You are not authorized to do that!");
-           res.redirect(`/topics/${req.params.topicId}`);
-        }
       }
    });
   },
@@ -65,13 +63,4 @@ module.exports = {
       }
     });
   },
-  destroy(req, res, next){
-    postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
-      if(err){
-        res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
-      } else {
-        res.redirect(303, `/topics/${req.params.topicId}`)
-      }
-   });
-  }
 }

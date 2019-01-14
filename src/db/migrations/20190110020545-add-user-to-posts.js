@@ -12,8 +12,8 @@ module.exports = {
         references: {
           model: "Users",
           key: "id",
-          as: "userId",
-        defaultValue: "admin"
+          as: "userId"
+
         },
       }
     );
