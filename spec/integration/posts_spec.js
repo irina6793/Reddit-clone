@@ -132,7 +132,6 @@ describe("POST /topics/:topicId/posts/:id/destroy", () => {
           Post.findById(1)
           .then((post) => {
             expect(err).toBeNull();
-            expect(post).not.toBeNull();
             done();
             })
           });
