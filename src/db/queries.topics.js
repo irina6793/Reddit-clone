@@ -100,7 +100,7 @@ callback(401);
 validateTopic(req, res, next) {
 
 //#1
-if(req.method === "GET") {
+if(req.method === "POST") {
 
 //#2
 req.checkParams("topicId", "must be valid").notEmpty().isInt();
