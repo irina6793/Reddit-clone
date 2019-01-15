@@ -120,4 +120,50 @@ describe("Comment", () => {
      })
    });
  });
+
+ // #7: We test the `getUser` method which should return the User associated with the comment called on
+ describe("#getUser()", () => {
+   it("should return the associated user", (done) => {
+
+     this.comment.getUser()
+     .then((associatedUser) => {
+       expect(associatedUser.email).toBe("starman@tesla.com");
+       done();
+    });
+  });
+ });
+
+ // #8: We test `setPost` which should associate the Post passed as argument to the comment called on
+ describe("#setPost()", () => {
+   it("should associate a post and a comment together", (done) => {
+
+     Post.create({       // create post
+       title: "Dress code on Proxima b",
+       body: "Spacesuit, space helmet, space boots, and space gloves",
+       topicId: this.topic.id,
+       userId: this.user.id
+    })
+    .then((newPost) => {
+      expect(this.comment.postId).toBe(this.post.id); // confirm comment is associated to a different post
+      this.comment.setPost(newPost)                   // associate new post to comment
+      .then((comment) => {
+
+        expect(comment.postId).toBe(newPost.id);      // confirm association took place
+        done();
+      });
+    })
+  });
+ });
+
+// #9: We test `getPost` which should return the Post associated with the comment called on
+describe("#getPost()", () => {
+  it("should return the associated post", (done) => {
+
+    this.comment.getPost()
+    .then((associatedPost) => {
+      expect(associatedPost.title).toBe("My first visit to Proxima Centauri b");
+      done();
+    });
+  });
+});
 });
