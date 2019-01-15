@@ -7,9 +7,9 @@ const User = require("../../src/db/models").User;
 describe("Post", () => {
 
   beforeEach((done) => {
-       this.topic = this.topic;
-       this.post = this.post;
-       this.user = this.user;
+       this.topic;
+       this.post;
+       this.user;
 
       sequelize.sync({force: true}).then((res) => {
       User.create({
@@ -22,7 +22,8 @@ describe("Post", () => {
           description: "A compilation of reports from recent visits to the star system.",
           posts: [{
             title: "My first visit to Proxima Centauri b",
-            body: "I saw some rocks."
+            body: "I saw some rocks.",
+            userId: this.user.id
           }]
         }, {
           include: {
@@ -47,7 +48,6 @@ describe("Post", () => {
   }).then((post) => {
    expect(post.title).toBe("Pros of Cryosleep during the long journey");
    expect(post.body).toBe("1. Not having to answer the 'are we there yet?' question.");
-   expect(post.topicId).toBe(this.topic.id);
    expect(post.userId).toBe(this.user.id);
    done();
 }).catch((err) => {

@@ -29,7 +29,7 @@ module.exports = {
     });
   }else {
       req.flash("notice", "You are not authorized to do that!");
-      res.redirect(`/topics/${req.params.topicId}`);
+      res.redirect(`/posts`);
     }
   },
   show(req, res, next){
@@ -42,6 +42,8 @@ module.exports = {
     });
   },
   destroy(req, res, next){
+    const authorized = new Authorizer(req.user).destroy();
+
     postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
       if(err){
         res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
@@ -56,11 +58,19 @@ module.exports = {
       if(err || post == null){
         res.redirect(404, "/");
       } else {
-           res.render("posts/edit", {post});
-      }
+        const authorized = new Authorizer(req.user, post).edit();
+        if(authorized){
+            res.render("posts/edit", {post});
+      } else {
+        req.flash("You are not allowed to do that.");
+        res.redirect(`/posts/${req.params.id}`);
+     }
+   }
    });
   },
   update(req, res, next){
+    const authorized = new Authorizer(req.user).update();
+
     postQueries.updatePost(req.params.id, req.body, (err, post) => {
       if(err || post == null){
         res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
