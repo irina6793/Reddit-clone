@@ -62,4 +62,62 @@ describe("Comment", () => {
    });
   });
  });
+
+ // #4: We start a test suite for the `create` action
+ describe("#create()", () => {
+   it("should create a comment object with a body, assigned post and user", (done) => {
+     Comment.create({                // create a comment
+       body: "The geological kind.",
+       postId: this.post.id,
+       userId: this.user.id
+     })
+     .then((comment) => {            // confirm it was created with the values passed
+       expect(comment.body).toBe("The geological kind.");
+       expect(comment.postId).toBe(this.post.id);
+       expect(comment.userId).toBe(this.user.id)
+       done();
+     })
+     .catch((err) => {
+       console.log(err);
+       done();
+     });
+   });
+
+// #5: We test that comments with invalid attributes are not created
+  it("should not create a comment with missing body, assigned post or user", (done) => {
+    Comment.create({
+      body: "Are the inertial dampers still engaged?"
+    })
+    .then((comment) => {
+      // the code in this block will not be evaluated since the validation error
+      // will skip it. Instead, we'll catch the error in the catch block below
+      // and set the expectations there
+      done();
+    })
+    .catch((err) => {
+
+      expect(err.message).toContain("Comment.userId cannot be null");
+      expect(err.message).toContain("Comment.postId cannot be null");
+      done();
+    })
+  });
+ });
+
+ // #6: We test the `setUser` method which assigns a User object to the comment it was called on
+ describe("#setUser()", () => {
+   it("should associate a comment and a user together", (done) => {
+     User.create({               // create an unassociated user
+       email: "bob@example.com",
+       password: "password"
+     })
+     .then((newUser) => {        // pass the user down
+       expect(this.comment.userId).toBe(this.user.id); // confirm the comment belongs to another user
+       this.comment.setUser(newUser)                   // then reassign it
+       .then((comment) => {
+         expect(comment.userId).toBe(newUser.id);      // confirm the values persisted
+         done();
+       });
+     })
+   });
+ });
 });
