@@ -78,7 +78,6 @@ describe("guest attempting to perform CRUD actions for Comment", () => {
     }
   );
  });
-});
 
 describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
   it("should not create a new comment", (done) => {
@@ -127,8 +126,7 @@ describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
    })
  });
 });
-
-
+});
 describe("signed in user performing CRUD actions for Comment", () => {
   beforeEach((done) => {    // before each suite in this context
     request.get({           // mock authentication
