@@ -155,7 +155,8 @@ describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
     };
     request.post(options,
       (err, res, body) => {
-
+        console.log("Error?");
+        console.log(err);
         Comment.findOne({where: {body: "This comment is amazing!"}})
         .then((comment) => {
           expect(comment).not.toBeNull();

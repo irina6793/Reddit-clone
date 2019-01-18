@@ -18,7 +18,7 @@ module.exports = {
         if(err){
           req.flash("error", err);
         }
-        res.redirect(req.headers.referer);
+        res.redirect(req.headers.referrer);
       });
     } else {
       req.flash("notice", "You must be signed in to do that.")
@@ -29,9 +29,9 @@ module.exports = {
   destroy(req, res, next){
     commentQueries.deleteComment(req, (err, comment) => {
       if(err){
-        res.redirect(err, req.headers.referer);
+        res.redirect(err, req.headers.referrer);
       } else {
-        res.redirect(req.headers.referer);
+        res.redirect(req.headers.referrer);
       }
     });
   }
