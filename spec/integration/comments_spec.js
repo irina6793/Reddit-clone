@@ -77,6 +77,7 @@ describe("guest attempting to perform CRUD actions for Comment", () => {
       done();
     }
   );
+  done();
  });
 
 describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
@@ -140,8 +141,9 @@ describe("signed in user performing CRUD actions for Comment", () => {
       done();
     }
   );
+  done();
 });
-});
+
 
 describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
   it("should create a new comment and redirect", (done) => {
@@ -192,3 +194,4 @@ describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
     });
   });
 }); //end context for signed in user
+});
