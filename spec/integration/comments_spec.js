@@ -195,4 +195,96 @@ describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
     });
   });
 }); //end context for signed in user
+
+describe("member user tries to delete another member user comment", () => {
+   beforeEach((done) => {
+
+     User.create({
+       email: "irina6793@gmail.com",
+       password: "tech",
+       role: "member"
+     })
+
+     .then((user) => {
+       request.get({
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           role: user.role,
+           userId: user.id,
+           email: user.email
+         }
+       },
+       (err, res, body) => {
+         done();
+       }
+     );
+   });
+});
+
+describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+  it("should not delete another member comment", (done) => {
+    Comment.all()
+    .then((comments) => {
+      const commentCount = comments.length;
+
+      expect(commentCount).toBe(1);
+      request.post(
+        `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+        (err, res, body) => {
+
+          Comment.all()
+          .then((comments) => {
+            expect(comments.length).toBe(commentCount);
+            done();
+          })
+        });
+      })
+    });
+  });
+});
+
+describe("admin user tries to delete member user's comment", () => {
+   beforeEach((done) => {
+     User.create({
+       email: "dasha@gmail.com",
+       password: "silicon",
+       role: "admin"
+     })
+     .then((user) => {
+       request.get({
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           role: user.role,
+           userId: user.id,
+           email: user.email
+         }
+       },
+       (err, res, body) => {
+         done();
+       }
+     );
+  });
+});
+
+describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+  it("should allow admin to delete the user member comment", (done) => {
+    Comment.all()
+    .then((comments) => {
+      const commentCount = comments.length;
+
+      expect(commentCount).toBe(1);
+      request.post(
+        `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+        (err, res, body) => {
+
+          Comment.all()
+          .then((comments) => {
+            expect(comments.length).toBe(commentCount - 1);
+            done();
+          })
+        });
+      })
+    });
+  });
+});
 });
