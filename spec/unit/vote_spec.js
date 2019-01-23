@@ -114,7 +114,22 @@ describe("#create()", () => {
          done();
        })
      });
-   });
+     it("should only create votes with the values of -1 or 1", (done) => {
+       Vote.create({
+         value: -2,
+         postId: this.post.id,
+         userId: this.user.id
+       })
+       .then((vote) => {
+         expect(vote).toBeNull();
+         done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    })
+  })
 
 describe("#setUser()", () => {
      it("should associate a vote and a user together", (done) => {
@@ -222,4 +237,62 @@ describe("#getPost()", () => {
    });
  });
 });
+
+describe('#hasUpvoteFor()', () => {
+  it('should return true if the user with matching userid has upvoted the post', (done) => {
+    Post.create({
+      title: "Pop Music Songs",
+      body: "Awesome song",
+      topicId: this.topic.id,
+      userId: this.user.id,
+      votes: [{
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+     }]
+   }, {
+        include: {
+          model: Vote,
+          as: "votes"
+    }
+  })
+    .then((post) => {
+      expect(post.hasUpvoteFor(post.userId)).toBe(true);
+      done();
+  })
+    .catch((err) => {
+      console.log(err);
+      done();
+  });
+ });
 });
+
+describe('#hasDownvoteFor()', () => {
+  it('should return true if the user with matching userid has downvoted the post', (done) => {
+    Post.create({
+      title: "Classic Music Songs",
+      body: "Boring song",
+      topicId: this.topic.id,
+      userId: this.user.id,
+      votes: [{
+        value: -1,
+        userId: this.user.id,
+        postId: this.post.id
+     }]
+   }, {
+     include: {
+       model: Vote,
+       as: "votes"
+   }
+})
+    .then((user) => {
+      expect(post.hasDownvoteFor(post.userId)).toBe(true);
+      done();
+  })
+     .catch((err) => {
+       console.log(err);
+       done();
+   })
+  })
+ })
+})

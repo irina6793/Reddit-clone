@@ -124,5 +124,33 @@ describe("#getUser()", () => {
     });
   });
  });
+
+describe('#getPoints()', () => {
+  it('should return the number of votes associated with the post', (done) => {
+    Post.create({
+      title: "Points",
+      body: "So many points",
+      topicId: this.topic.id,
+      userId: this.user.id,
+      votes: [{
+        value: 1,
+        userId: this.user.id
+      }]
+    }, {
+      include: {
+        model: Vote,
+        as: "votes"
+    }
+  })
+    .then((post) => {
+      expect(post.getPoints()).toBe(1);
+      done();
+    })
+    .catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
 });
-});
+})
+})
