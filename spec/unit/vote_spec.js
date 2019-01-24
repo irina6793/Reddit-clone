@@ -238,7 +238,7 @@ describe("#getPost()", () => {
  });
 });
 
-describe('#hasUpvoteFor()', () => {
+describe('#hasUpVoteFor()', () => {
   it('should return true if the user with matching userid has upvoted the post', (done) => {
     Post.create({
       title: "Pop Music Songs",
@@ -257,7 +257,7 @@ describe('#hasUpvoteFor()', () => {
     }
   })
     .then((post) => {
-      expect(post.hasUpvoteFor(post.userId)).toBe(true);
+      expect(post.hasUpVoteFor(post.userId)).toBe(true);
       done();
   })
     .catch((err) => {
@@ -267,7 +267,7 @@ describe('#hasUpvoteFor()', () => {
  });
 });
 
-describe('#hasDownvoteFor()', () => {
+describe('#hasDownVoteFor()', () => {
   it('should return true if the user with matching userid has downvoted the post', (done) => {
     Post.create({
       title: "Classic Music Songs",
@@ -286,7 +286,7 @@ describe('#hasDownvoteFor()', () => {
    }
 })
     .then((post) => {
-      expect(post.hasDownvoteFor(post.userId)).toBe(true);
+      expect(post.hasDownVoteFor(post.userId)).toBe(true);
       done();
   })
      .catch((err) => {
