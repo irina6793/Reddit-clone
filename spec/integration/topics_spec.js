@@ -125,18 +125,16 @@ describe("POST /topics/:id/destroy", () => {
       });
    });
 
-           describe("GET /topics/:id/edit", () => {
-
-             it("should render a view with an edit topic form", (done) => {
-               request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
-                 expect(err).toBeNull();
-                 expect(body).toContain("Edit Topic");
-                 expect(body).toContain("JS Frameworks");
-                 done();
-               });
-             });
-
-           });
+describe("GET /topics/:id/edit", () => {
+     it("should render a view with an edit topic form", (done) => {
+          request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
+              expect(err).toBeNull();
+              expect(body).toContain("Edit Topic");
+              expect(body).toContain("JS Frameworks");
+             done();
+          });
+        });
+   });
 
            describe("POST /topics/:id/update", () => {
 
@@ -165,15 +163,27 @@ describe("POST /topics/:id/destroy", () => {
 
  // context of member user
 describe("member user performing CRUD actions for Topic", () => {
-    beforeEach((done) => {  // before each suite in admin context
-        request.get({
+     beforeEach((done) => {  // before each suite in admin context
+      User.create({         // mock authentication
+        email: "dasha92@yahoo.com",
+        password: "techy",
+        role: "member"     // mock authenticate as admin user
+      })
+      .then((user) => {
+        request.get({         // mock authentication
           url: "http://localhost:3000/auth/fake",
-            form: {
-            role: "member"
+          form: {
+            role: user.role,     // mock authenticate as admin user
+            userId: user.id,
+            email: user.email
+          }
+        },
+          (err, res, body) => {
+            done();
         }
+      );
     });
-        done();
-});
+  });
 
 describe("GET /topics", () => {
     it("should respond with all topics", (done) => {

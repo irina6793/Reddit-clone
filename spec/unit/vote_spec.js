@@ -285,7 +285,7 @@ describe('#hasDownvoteFor()', () => {
        as: "votes"
    }
 })
-    .then((user) => {
+    .then((post) => {
       expect(post.hasDownvoteFor(post.userId)).toBe(true);
       done();
   })

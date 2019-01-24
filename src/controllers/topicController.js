@@ -29,6 +29,7 @@ if(authorized) {
 },
   create(req, res, next){
       console.log("Creating topic...");
+      console.log(JSON.stringify(req.user));
 // #1
   const authorized = new Authorizer(req.user).create();
 // #2

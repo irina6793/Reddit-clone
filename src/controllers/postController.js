@@ -12,7 +12,9 @@ module.exports = {
       }
   },
   create(req, res, next){
+    console.log("Creating post...");
     const authorized = new Authorizer(req.user).create();
+    console.log("User is authorized = " + authorized);
     if(authorized) {
     let newPost= {
       title: req.body.title,
@@ -22,12 +24,16 @@ module.exports = {
    };
    postQueries.addPost(newPost, (err, post) => {
      if(err){
+              console.log("There was an error creating the post:");
+                     console.log(err);
        res.redirect(500, "/posts/new");
      } else {
+              console.log("Created post, redirecting to new post");
        res.redirect(303, `/topics/${newPost.topicId}/posts/${post.id}`);
      }
     });
   }else {
+          console.log("Redirecting to posts index page");
       req.flash("notice", "You are not authorized to do that!");
       res.redirect(`/posts`);
     }
