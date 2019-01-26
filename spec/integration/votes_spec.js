@@ -73,7 +73,7 @@ describe("GET /topics/:topicId/posts/:postId/votes/upvote", () => {
        (err, res, body) => {
          Vote.findOne({            // look for the vote, should not find one.
            where: {
-             userId: this.user.id,
+             userId: 0,
              postId: this.post.id
           }
         })
