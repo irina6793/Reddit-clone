@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
      as: "votes"
    });
 
-   Post.prototype.getPoints = function(){
+  Post.prototype.getPoints = function(){
      if(this.votes.length === 0) return 0
      return this.votes
      .map((v) => { return v.value })
@@ -77,6 +77,14 @@ module.exports = (sequelize, DataTypes) => {
   Post.prototype.getFavoriteFor = function(userId){
     return this.favorites.find((favorite) => { return favorite.userId == userId });
   };
+
+  Post.addScope("lastFiveFor", (userId) => {
+    return {
+      where: { userId: userId},
+      limit: 5,
+      order: [["createdAt", "DESC"]]
+    }
+  });
 };
      return Post;
   };

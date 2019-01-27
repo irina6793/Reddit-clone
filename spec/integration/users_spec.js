@@ -2,14 +2,19 @@ const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/users/";
 const User = require("../../src/db/models").User;
+const Topic = require("../../src/db/models").Topic;
+const Post = require("../../src/db/models").Post;
+const Comment = require("../../src/db/models").Comment;
+
 const sequelize = require("../../src/db/models/index").sequelize;
 
 describe("routes : users", () => {
 
   beforeEach((done) => {
 
-    sequelize.sync({force: true})
-    .then(() => {
+      sequelize.sync({force: true})
+
+      .then(() => {
       done();
     })
     .catch((err) => {
