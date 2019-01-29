@@ -53,10 +53,8 @@ describe("routes : favorites", () => {
 });
 
 describe("guest attempting to favorite on a post", () => {
-
-  beforeEach((done) => {    // before each suite in this context
-
-    request.get({
+    beforeEach((done) => {    // before each suite in this context
+      request.get({
       url: "http://localhost:3000/auth/fake",
       form: {
         userId: 0
@@ -98,8 +96,7 @@ describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
  });
 
 describe("signed in user favoriting a post", () => {
-
-  beforeEach((done) => {  // before each suite in this context
+   beforeEach((done) => {  // before each suite in this context
     request.get({         // mock authentication
       url: "http://localhost:3000/auth/fake",
       form: {

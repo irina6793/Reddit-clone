@@ -5,8 +5,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
 describe("routes : advertisement", () => {
-
-  beforeEach((done) => {
+    beforeEach((done) => {
         this.advertisement;
         sequelize.sync({force: true}).then((res) => {
 
@@ -33,7 +32,6 @@ describe("GET /advertisement", () => {
     });
   });
 });
-
 
 describe("GET /advertisement/new", () => {
     it("should render a new advertisement form", (done) => {
@@ -70,9 +68,8 @@ describe("POST /advertisement/create", () => {
   })
 });
 
- describe("GET /advertisement/:id", () => {
-
-    it("should render a view with the selected advertisement", (done) => {
+describe("GET /advertisement/:id", () => {
+   it("should render a view with the selected advertisement", (done) => {
        request.get(`${base}${this.advertisement.id}`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Best Advertisement");
@@ -81,18 +78,13 @@ describe("POST /advertisement/create", () => {
     });
    });
 
- describe("POST /advertisement/:id/destroy", () => {
-
-      it("should delete the advertisement with the associated ID", (done) => {
-
-      Advertisement.all()
+describe("POST /advertisement/:id/destroy", () => {
+     it("should delete the advertisement with the associated ID", (done) => {
+        Advertisement.all()
          .then((advertisement) => {
-
-      const advertisementCountBeforeDelete = advertisement.length;
-
-      expect(advertisementCountBeforeDelete).toBe(1);
-
-      request.post(`${base}${this.advertisement.id}/destroy`, (err, res, body) => {
+     const advertisementCountBeforeDelete = advertisement.length;
+     expect(advertisementCountBeforeDelete).toBe(1);
+            request.post(`${base}${this.advertisement.id}/destroy`, (err, res, body) => {
         Advertisement.all()
        .then((advertisement) => {
            expect(err).toBeNull();
@@ -105,7 +97,6 @@ describe("POST /advertisement/create", () => {
     });
 
 describe("GET /advertisement/:id/edit", () => {
-
      it("should render a view with an edit advertisement form", (done) => {
        request.get(`${base}${this.advertisement.id}/edit`, (err, res, body) => {
          expect(err).toBeNull();
@@ -117,8 +108,7 @@ describe("GET /advertisement/:id/edit", () => {
    });
 
 describe("POST /advertisement/:id/update", () => {
-
-     it("should update the advertisement with the given values", (done) => {
+    it("should update the advertisement with the given values", (done) => {
        const options = {
          url: `${base}${this.advertisement.id}/update`,
          form: {
@@ -128,8 +118,7 @@ describe("POST /advertisement/:id/update", () => {
        };
          request.post(options,
             (err, res, body) => {
-
-            expect(err).toBeNull();
+      expect(err).toBeNull();
             Advertisement.findOne({
                  where: { id: this.advertisement.id }
            })

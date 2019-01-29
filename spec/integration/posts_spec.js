@@ -8,8 +8,7 @@ const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
 
 describe("routes : posts", () => {
-
-  beforeEach((done) => {
+   beforeEach((done) => {
     this.topic;
     this.post;
     this.user;
@@ -48,9 +47,7 @@ describe("routes : posts", () => {
 
 //guest user
 describe("member user performing CRUD actions for Post", () => {
-  // before each suite in guest context
   beforeEach((done) => {
-    // mock auth with userId of 0 forces null user
     request.get({
       url: "http://localhost:3000/auth/fake",
       form: {
@@ -75,8 +72,8 @@ describe("GET /topics/:topicId/posts/:id", () => {
 
 //member user
 describe("admin user performing CRUD actions for Topic", () => {
-    beforeEach((done) => {  // before each suite in admin context
-        User.create({         // mock authentication
+    beforeEach((done) => {
+        User.create({         
           email: "irina6793@yahoo.com",
           password: "techjob2019",
           role: "member"     // mock authenticate as admin user

@@ -10,7 +10,6 @@ const Comment = require("../../src/db/models").Comment;
 
 describe("routes : comments", () => {
   beforeEach((done) => {
-
     this.user;
     this.topic;
     this.post;
