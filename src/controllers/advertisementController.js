@@ -5,17 +5,12 @@ module.exports = {
   index(req, res, next) {
     advertisementQueries.getAllAdvertisements((err, advertisements) => {
       if(err){
-
-    res.redirect(500, "static/index");
+       res.redirect(500, "static/index");
   } else {
-    
-
-  console.log("\n");
-    res.render("advertisement/index", {advertisements});
-  }
-})
+       res.render("advertisement/index", {advertisements});
+    }
+  })
 },
-
 
   new(req, res, next){
        res.render("advertisement/new");

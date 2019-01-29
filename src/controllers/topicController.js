@@ -10,7 +10,6 @@ module.exports = {
 
 //#3
   if(err){
-    console.log(err)
     res.redirect(500, "static/index");
   } else {
     res.render("topics/index", {topics});
@@ -28,11 +27,7 @@ if(authorized) {
  }
 },
   create(req, res, next){
-      console.log("Creating topic...");
-      console.log(JSON.stringify(req.user));
-// #1
   const authorized = new Authorizer(req.user).create();
-// #2
   if(authorized) {
     let newTopic = {
       title: req.body.title,
@@ -40,16 +35,12 @@ if(authorized) {
   };
    topicQueries.addTopic(newTopic, (err, topic) => {
     if(err){
-            console.log("Error creating topic, redirecting to new topic page...");
       res.redirect(500, "/topics/new");
     } else {
-      console.log("Created topic, redirecting to that topic's page...");
-       res.redirect(303, `/topics/${topic.id}`);
+      res.redirect(303, `/topics/${topic.id}`);
     }
   });
 } else {
-  console.log("Error creating topic, user not authorized. Redirecting to /topics...");
-  // #3
   req.flash("notice", "You are not authorized to do that.");
   res.redirect(303, "/topics");
  }
@@ -58,17 +49,14 @@ if(authorized) {
  show(req, res, next){
    topicQueries.getTopic(req.params.id, (err, topic) => {
    if(err || topic == null){
-      console.log(err);
       res.redirect(404, "/");
   } else {
-      console.log("OK");
       res.render("topics/show", {topic});
    }
   });
 },
 edit(req, res, next){
-// #1
-  topicQueries.getTopic(req.params.id, (err, topic) => {
+    topicQueries.getTopic(req.params.id, (err, topic) => {
     if(err || topic == null){
       res.redirect(404, "/");
     } else {
