@@ -5,14 +5,10 @@
     <% include ../static/partials/navbar.ejs %>
     <% include ../static/partials/baseScripts.ejs %>
     <% include ../static/partials/user.ejs %>
-
   </head>
-  <body>
-
-  <main class="container">
-
-      <h1>New Advertisement</h1>
-
+<body>
+   <main class="container">
+   <h1>New Advertisement</h1>
       <form action="/topics/advertisement" method="post">
         <div class="form-group">
           <label for="title">Advertisement Name</label>
@@ -24,9 +20,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-
     </main>
-
-
   </body>
 </html>
