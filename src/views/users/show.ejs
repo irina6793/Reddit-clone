@@ -8,17 +8,17 @@
   <main class="container">
     <% include ../static/partials/messages.ejs %>
 
-<!-- #1 -->
-<h1><%= `${user.email}'s profile` %></h1>
+ <h1><%= `${user.email}'s profile` %></h1>
 <hr>
+
 <h2> Latest Posts</h2>
 <ul class="list-unstyled">
 
-<!-- #2 -->
+
 <% if(posts) { %>
   <% posts.forEach((post) => { %>
 
-<!-- #3 -->
+
 <li>
   <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
     <%= post.title %>
@@ -44,10 +44,21 @@
   <p>Comment: <%= comment.body %></p>
 </li>
 <hr>
-<% }) %>
-<% } %>
-</ul>
-</main>
-<% include ../static/partials/baseScripts.ejs %>
-</body>
+
+<h2>Favorites</h2>
+    <ul class="list-unstyled">
+           <% if (allFavorites) { %>
+           <% allFavorites.forEach((post) => { %>
+    <li>
+        <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+           <%= post.title %>
+        </a>
+    </li>
+           <hr>
+           <% }) %>
+           <% } %>
+       </ul>
+   </main>
+  <% include ../static/partials/baseScripts.ejs %>
+  </body>
 </html>

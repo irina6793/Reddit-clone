@@ -5,12 +5,9 @@
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
-
-    <main class="container">
-
-      <h1>New Advertisement</h1>
-
-      <form action="/topics/create" method="post">
+   <main class="container">
+   <h1>New Advertisement</h1>
+     <form action="/topics/create" method="post">
         <div class="form-group">
           <label for="title">Advertisement title</label>
           <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
@@ -21,10 +18,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-
-    </main>
-
-     <% include ../static/partials/baseScripts.ejs %>
-
+   </main>
+ <% include ../static/partials/baseScripts.ejs %>
   </body>
 </html>
