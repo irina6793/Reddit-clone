@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <% include ./partials/head.ejs %>
-    <% include ../static/partials/navbar.ejs %>
     <% include ../static/partials/baseScripts.ejs %>
-    <% include ../static/partials/user.ejs %>
+    <% include ./partials/head.ejs %>
     <% include ../static/partials/messages.ejs %>
+    <% include ../static/partials/navbar.ejs %>
   </head>
-  <body>
-<!-- Page Content -->
-      <main class="container">
-<!-- Jumbotron Header -->
+<body>
+    <main class="container">
         <header class="jumbotron my-4">
           <h1 class="display-3">Welcome to Reddit</h1>
           <p class="lead">An application for users to share information.</p>
-          <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
+          <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign Up</a>
         </header>
-<!-- Page Features -->
         <section class="row text-center">
         <section class="col-lg-4">
             <h4 class="card-title">Post</h4>
@@ -36,8 +32,6 @@
               <p class="card-text">Learn more about the great work that we do.</p>
           </section>
         </section>
-    <!-- /.row -->
-    </main>
-      <!-- /.container -->
-    </body>
+   </main>
+ </body>
 </html>
