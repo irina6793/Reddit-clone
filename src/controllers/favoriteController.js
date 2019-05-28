@@ -1,31 +1,28 @@
 const favoriteQueries = require("../db/queries.favorites.js");
-
 module.exports = {
-
-  create(req, res, next){
-    if(req.user){
+  create(req, res, next) {
+    if (req.user) {
       favoriteQueries.createFavorite(req, (err, favorite) => {
-        if(err){
+        if (err) {
           req.flash("error", err);
-       }
-     });
-   } else {
-     req.flash("notice", "You must be signed in to do that.")
+        }
+      });
+    } else {
+      req.flash("notice", "You must be signed in to do that.");
     }
     res.redirect(req.headers.referrer);
   },
-
-  destroy(req, res, next){
-    if(req.user){
+  destroy(req, res, next) {
+    if (req.user) {
       favoriteQueries.deleteFavorite(req, (err, favorite) => {
-        if(err){
+        if (err) {
           req.flash("error", err);
-       }
-       res.redirect(req.headers.referrer);
-     });
-   } else {
-     req.flash("notice", "You must be signed in to do that.")
-     res.redirect(req.headers.referrer);
+        }
+        res.redirect(req.headers.referrer);
+      });
+    } else {
+      req.flash("notice", "You must be signed in to do that.");
+      res.redirect(req.headers.referrer);
+    }
   }
- }
-}
+};
