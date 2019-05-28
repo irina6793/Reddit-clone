@@ -12,9 +12,7 @@ module.exports = {
         .checkBody("body", "must be at least 10 characters in length")
         .isLength({ min: 10 });
     }
-
     const errors = req.validationErrors();
-
     if (errors) {
       req.flash("error", errors);
       return res.redirect(303, req.headers.referer);
@@ -22,7 +20,6 @@ module.exports = {
       return next();
     }
   },
-
   validateUsers(req, res, next) {
     if (req.method === "POST") {
       req.checkBody("email", "must be valid").isEmail();
@@ -42,7 +39,6 @@ module.exports = {
       return next();
     }
   },
-
   validateTopic(req, res, next) {
     if (req.method === "TOPIC") {
       req
@@ -59,7 +55,6 @@ module.exports = {
         )
         .isLength({ min: 10 });
     }
-
     const errors = req.validationErrors();
     if (errors) {
       req.flash("error", errors);
@@ -68,7 +63,6 @@ module.exports = {
       return next();
     }
   },
-
   validateComments(req, res, next) {
     if (req.method === "POST") {
       req.checkBody("body", "must not be empty").notEmpty();

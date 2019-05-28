@@ -5,8 +5,7 @@
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
-
-    <main class="container">
+   <main class="container">
       <h1><%= flair.name %></h1>
       <a href="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/edit" class="btn btn-warning">Edit</a>
       <form style="display:initial" action="/topics/<%= flair.topicId %>/flairs/<%= flair.id %>/destroy" method="post">
@@ -14,8 +13,6 @@
       </form>
       <p><%= flair.color %></p>
     </main>
-
-    <% include ../static/partials/baseScripts.ejs %>
-
+  <% include ../static/partials/baseScripts.ejs %>
   </body>
 </html>
