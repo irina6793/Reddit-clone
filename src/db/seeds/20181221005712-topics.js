@@ -1,12 +1,10 @@
-'use strict';
+"use strict";
 
-//#1
 const faker = require("faker");
 
-//#2
 let topics = [];
 
-for(let i = 1 ; i <= 15 ; i++){
+for (let i = 1; i <= 15; i++) {
   topics.push({
     title: faker.hacker.noun(),
     description: faker.hacker.phrase(),
@@ -15,7 +13,6 @@ for(let i = 1 ; i <= 15 ; i++){
   });
 }
 
-//#3
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -29,7 +26,7 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert("Topics", topics, {});
-},
+  },
 
   down: (queryInterface, Sequelize) => {
     /*
