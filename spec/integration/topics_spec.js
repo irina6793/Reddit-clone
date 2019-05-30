@@ -7,16 +7,14 @@ const User = require("../../src/db/models").User;
 
 describe("routes : topics", () => {
   beforeEach(done => {
-    // before each context
-    this.topic; // define variables and bind to context
+    this.topic;
     sequelize.sync({ force: true }).then(() => {
-      // clear database
       Topic.create({
         title: "JS Frameworks",
         description: "There is a lot of them"
       })
         .then(res => {
-          this.topic = res; // store resulting topic in context
+          this.topic = topic;
           done();
         })
         .catch(err => {

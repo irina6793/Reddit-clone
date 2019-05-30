@@ -12,7 +12,9 @@ module.exports = {
     });
   },
   new(req, res, next) {
+    console.log(req.user);
     const authorized = new Authorizer(req.user).new();
+    console.log(authorized);
     if (authorized) {
       res.render("topics/new");
     } else {
